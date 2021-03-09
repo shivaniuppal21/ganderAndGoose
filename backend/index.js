@@ -41,8 +41,6 @@ app.get('/', (req, res) => {
 });
 // will show a form to login
 app.get('/register', (req, res) => {
-    //const user_Id = req.session['user_Id'];
-    //const templateVars = {user: users[user_Id]};
     res.redirect('http://localhost:3000');
   });
   
@@ -73,40 +71,42 @@ curl --location --request POST 'http://localhost:3080/register' \
     const zipCode = req.body.zipCode;
     const query = `INSERT INTO Users (email, first_name, last_name,password,mobile,zipCode,country)
     VALUES ('${incomingEmail}','${firstName}','${LastName}','${incomingPassword}','${mobile}','${zipCode}','${country}')`;
-    db.query(query, (err, res) => {
+    
+    // We should check if email exists
+    if (emailExists(users, incomingEmail)) {
+      res.send('An account already exists for this email address');
+      return;
+    } else {db.query(query, (err, res) => {
       if (err) {
           console.error(err);
           return;
       }
       console.log('Data insert successful');
   });
-
     console.log(incomingEmail)
     console.log(incomingPassword)
     res.send('saved to DB');
-    /*
-    const userid = generateRandomString();
-  
+
+ /* Login route*/   
+
+    app.get('/signIn', (req, res) => {
+      res.render('signIn');
+    });
+    
+    app.post('/signin', (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
     if (!incomingEmail || !incomingPassword) {
       res.statusCode = 400;
       res.send('Incorrect username or password');
-      return;
+      res.redirect('signIn')}
+    // Authenticated user
+    else {
+      res.render('/products')
+
     }
-    // We should check if email exists
-    if (emailExists(users, incomingEmail)) {
-      res.send('An account already exists for this email address');
-      return;
-    } else {
-      // If not, we want to add the new user data to the database
-      const newUser = {
-        id: userid,
-        email: incomingEmail,
-        password: bcrypt.hashSync(incomingPassword, 10),
-      };
-      users[userid] = newUser;
-      res.redirect('/urls');
-    }
-    */
+    
   });
 
 
