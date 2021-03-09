@@ -8,7 +8,7 @@ const db = require("./db");
 
 const bcrypt = require('bcrypt');
 var bodyParser    = require('body-parser');
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 const pgp = require('pg-promise')(/* initialization options */);
 
 
@@ -48,6 +48,18 @@ app.get('/register', (req, res) => {
   
   /*
   Sample query
+curl --location --request POST 'http://localhost:3080/register' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email":"sdsdsd" ,
+"password":"sdsdsd" ,
+"confirmpassword":"sdsdsd" ,
+"firstName":"sddewqe" ,
+"LastName":"rfdf" ,
+ "mobile":"5656565565" ,
+"country":"ca" ,
+"zipCode":"3434"
+}'
   */
   app.post('/register', (req, res) => {
     console.log(req.body)
