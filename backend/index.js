@@ -46,6 +46,9 @@ app.get('/register', (req, res) => {
     res.redirect('http://localhost:3000');
   });
   
+  /*
+  Sample query
+  */
   app.post('/register', (req, res) => {
     console.log(req.body)
     const incomingEmail = req.body.email;
@@ -56,8 +59,8 @@ app.get('/register', (req, res) => {
     const mobile = req.body.mobile;
     const country = req.body.country;
     const zipCode = req.body.zipCode;
-    const query = `INSERT INTO Users (email, first_name, last_name,password)
-    VALUES ('${incomingEmail}','sdsd','sdsd','${incomingPassword}')`;
+    const query = `INSERT INTO Users (email, first_name, last_name,password,mobile,zipCode,country)
+    VALUES ('${incomingEmail}','${firstName}','${LastName}','${incomingPassword}','${mobile}','${zipCode}','${country}')`;
     db.query(query, (err, res) => {
       if (err) {
           console.error(err);

@@ -5,9 +5,7 @@ CREATE TABLE IF NOT EXISTS Users (
   last_name varchar(127) not null,
   email varchar(127) not null,
   password char(127),
-  addr_line1 varchar(255),
-  addr_line2 varchar(255) ,
-  city varchar(127) ,
-  postcode varchar(31) ,
+  mobile VARCHAR(10),
+  zipCode varchar(31) ,
   country varchar(127)
 );
