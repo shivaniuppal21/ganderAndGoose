@@ -11,12 +11,12 @@ CREATE TABLE IF NOT EXISTS Users (
   country varchar(127),
   isAdmin boolean
 );
-CREATE TABLE Product (
+CREATE TABLE Products (
   product_id varchar(127) PRIMARY KEY not null,
   title varchar(255) not null,
   description text not null,
   created_on TIMESTAMP NOT NULL,
   price VARCHAR,
-  rewiews VARCHAR,
+  reviews SMALLINT(1),
   category VARCHAR
 );

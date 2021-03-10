@@ -123,14 +123,15 @@ curl --location --request POST 'http://localhost:3080/register' \
       if (req.body.mobile){
         update_user_items['mobile'] =req.body.mobile
       }
-      const columns = Object.keys(update_user_items);
-      const values = Object.values(update_user_items);
-      console.log(columns)
-      console.log(values)
-      //values.push('uday')
-      let sql = `UPDATE Users SET ` + columns.join("=?,") +`=?`;
-      console.log(sql)
-      db.query(sql, values, (error, result, fields) => {
+      const args = Object.values(update_user_items);
+    const keys = Object.keys(update_user_items).join(',');
+    const argKeys = Object.keys(update_user_items).map((obj,index) => { 
+      return "$"+(index+1) 
+    }).join(',');  
+    args.push(loggedUser.email)
+    const query = "UPDATE Users SET ("+keys+") = ("+argKeys+") WHERE email = $"+(args.length);
+
+      db.query(query, args, (error, result, fields) => {
         if(error) throw error;
         res.send('User UPDATED')
     });
@@ -227,6 +228,74 @@ curl --location --request POST 'http://localhost:3080/register' \
       res.send("logged out")
       //res.redirect('/signin')
     });
+
+/* Add Product */
+
+app.post('/product', (req, res) => {
+  console.log(req.body)
+  const uid = uuidv4();
+  const title = req.body.title;
+  const description = req.body.description;
+  const created_on = Date.now()
+  const price = req.body.price;
+  const reviews = req.body.reviews;
+  const category = req.body.category;
+
+  const query = `INSERT INTO Products (product_id,title,description,created_on,price,reviews,category)
+  VALUES ('${uid}','${title}','${description}','${created_on}','${price}','${reviews}','${category}')`;
+  
+  // We should check if email exists
+      db.query(query, (err, resp) => {
+        if (err) {
+            console.error(err);
+        }
+        console.log('Product insert successful');
+        res.send('saved to DB');
+       })
+})
+
+
+
+
+
+    /* Get Product*/
+
+
+    app.get('/product', (req, res) => {
+      console.log(req.body)
+      const uid = uuidv4();
+      const incomingEmail = req.body.email;
+      const incomingPassword = req.body.password;
+      const confirmPassword = req.body.confirmpassword;
+      const first_name = req.body.first_name;
+      const last_name = req.body.last_name;
+      const mobile = req.body.mobile;
+      const country = req.body.country;
+      const zipCode = req.body.zipCode;
+      const query = `INSERT INTO Users (ID,email, first_name, last_name,password,mobile,zipCode,country,isAdmin)
+      VALUES ('${uid}','${incomingEmail}','${first_name}','${last_name}','${incomingPassword}','${mobile}','${zipCode}','${country}',false)`;
+      
+      // We should check if email exists
+      helpers.emailExists(db,incomingEmail).then((emailExist) => {
+        if (emailExist){
+          res.send('Not saved User already exist')
+        }
+        else{
+          db.query(query, (err, resp) => {
+            if (err) {
+                console.error(err);
+            }
+            console.log('Data insert successful');
+            res.send('saved to DB');
+           })
+        }
+      })
+    })
+  
+
+
+
+
 
 
 app.get("/api/reset", (request, response) => {
