@@ -1,4 +1,6 @@
-DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Users CASCADE;
+DROP TABLE IF EXISTS Product CASCADE;
+DROP TABLE IF EXISTS ProductCategory CASCADE;
 CREATE TABLE IF NOT EXISTS Users (
   ID varchar(127) PRIMARY KEY not null,
   first_name varchar(127) not null,
@@ -9,4 +11,12 @@ CREATE TABLE IF NOT EXISTS Users (
   zipCode varchar(31),
   country varchar(127),
   isAdmin boolean
+);
+CREATE TABLE Product (
+  product_id varchar(127) PRIMARY KEY not null,
+  title varchar(255) not null,
+  description text not null,
+  created_on TIMESTAMP NOT NULL,
+  price VARCHAR,
+  rewiews VARCHAR
 );
