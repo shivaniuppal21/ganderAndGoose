@@ -70,13 +70,13 @@ curl --location --request POST 'http://localhost:3080/register' \
     const incomingEmail = req.body.email;
     const incomingPassword = req.body.password;
     const confirmPassword = req.body.confirmpassword;
-    const firstName = req.body.firstName;
-    const LastName = req.body.LastName;
+    const first_name = req.body.first_name;
+    const last_name = req.body.last_name;
     const mobile = req.body.mobile;
     const country = req.body.country;
     const zipCode = req.body.zipCode;
     const query = `INSERT INTO Users (ID,email, first_name, last_name,password,mobile,zipCode,country,isAdmin)
-    VALUES ('${uid}','${incomingEmail}','${firstName}','${LastName}','${incomingPassword}','${mobile}','${zipCode}','${country}',false)`;
+    VALUES ('${uid}','${incomingEmail}','${first_name}','${last_name}','${incomingPassword}','${mobile}','${zipCode}','${country}',false)`;
     
     // We should check if email exists
     helpers.emailExists(db,incomingEmail).then((emailExist) => {
@@ -95,6 +95,58 @@ curl --location --request POST 'http://localhost:3080/register' \
     })
   })
 
+
+
+  /* edit User */
+
+  app.post('/edituser', (req, res) => {
+    console.log(req.body)
+    const loggedUser = req.session['user'] 
+    /*{
+      username: user.first_name,
+      email: user.email,
+      admin: user.isAdmin,
+      cart: null
+    };*/
+    const update_user_items= {}
+    if (loggedUser && loggedUser.email)
+    { 
+      if (req.body.password){
+        update_user_items['password'] =req.body.password
+      }
+      if (req.body.first_name){
+        update_user_items['first_name'] =req.body.first_name
+      }
+      if (req.body.last_name){
+        update_user_items['last_name'] =req.body.last_name
+      }
+      if (req.body.mobile){
+        update_user_items['mobile'] =req.body.mobile
+      }
+      const columns = Object.keys(update_user_items);
+      const values = Object.values(update_user_items);
+      console.log(columns)
+      console.log(values)
+      //values.push('uday')
+      let sql = `UPDATE Users SET ` + columns.join("=?,") +`=?`;
+      console.log(sql)
+      db.query(sql, values, (error, result, fields) => {
+        if(error) throw error;
+        res.send('User UPDATED')
+    });
+    }
+    else{
+      res.send('User not logged in')
+    }
+
+  })
+
+
+
+
+
+
+
   app.post('/createadmin', async (req, res) => {
     const uid = uuidv4();
     const firstName = 'Ricky'
@@ -102,7 +154,7 @@ curl --location --request POST 'http://localhost:3080/register' \
     const password= 'admin'
       
       const query = `INSERT INTO Users (ID,email, first_name,last_name,password,isAdmin)
-      VALUES ('${uid}','${email}','${firstName}','${firstName}','${password}',true)`;
+      VALUES ('${uid}','${email}','${first_name}','${first_name}','${password}',true)`;
       
       // We should check if email exists
       helpers.emailExists(db,email).then((emailExist) => {

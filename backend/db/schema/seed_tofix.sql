@@ -1,6 +1,5 @@
 DROP TABLE IF EXISTS Users CASCADE;
 DROP TABLE IF EXISTS Product CASCADE;
-DROP TABLE IF EXISTS ProductCategory CASCADE;
 CREATE TABLE IF NOT EXISTS Users (
   ID varchar(127) PRIMARY KEY not null,
   first_name varchar(127) not null,
@@ -18,5 +17,6 @@ CREATE TABLE Product (
   description text not null,
   created_on TIMESTAMP NOT NULL,
   price VARCHAR,
-  rewiews VARCHAR
+  rewiews VARCHAR,
+  category VARCHAR
 );
