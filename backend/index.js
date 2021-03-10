@@ -5,11 +5,12 @@ const express = require('express')
 const app = express()
 const port = 3080
 const db = require("./db");
+const helpers = require('./helpers/helper');
+const { v4: uuidv4 } = require('uuid');
 
 const bcrypt = require('bcrypt');
 var bodyParser    = require('body-parser');
 app.use(bodyParser.json());
-const pgp = require('pg-promise')(/* initialization options */);
 
 
 function read(file) {
@@ -61,6 +62,7 @@ curl --location --request POST 'http://localhost:3080/register' \
   */
   app.post('/register', (req, res) => {
     console.log(req.body)
+    const uid = uuidv4();
     const incomingEmail = req.body.email;
     const incomingPassword = req.body.password;
     const confirmPassword = req.body.confirmpassword;
@@ -69,23 +71,27 @@ curl --location --request POST 'http://localhost:3080/register' \
     const mobile = req.body.mobile;
     const country = req.body.country;
     const zipCode = req.body.zipCode;
-    const query = `INSERT INTO Users (email, first_name, last_name,password,mobile,zipCode,country)
-    VALUES ('${incomingEmail}','${firstName}','${LastName}','${incomingPassword}','${mobile}','${zipCode}','${country}')`;
+    const query = `INSERT INTO Users (ID,email, first_name, last_name,password,mobile,zipCode,country)
+    VALUES ('${uid}','${incomingEmail}','${firstName}','${LastName}','${incomingPassword}','${mobile}','${zipCode}','${country}')`;
     
     // We should check if email exists
-    if (emailExists(users, incomingEmail)) {
-      res.send('An account already exists for this email address');
-      return;
-    } else {db.query(query, (err, res) => {
-      if (err) {
-          console.error(err);
-          return;
+    helpers.emailExists(db,incomingEmail).then((emailExist) => {
+      if (emailExist){
+        res.send('Not saved User already exist')
       }
-      console.log('Data insert successful');
-  });
-    console.log(incomingEmail)
-    console.log(incomingPassword)
-    res.send('saved to DB');
+      else{
+        db.query(query, (err, resp) => {
+          if (err) {
+              console.error(err);
+          }
+          console.log('Data insert successful');
+          res.send('saved to DB');
+         })
+      }
+      
+      
+    })
+  })
 
  /* Login route*/   
 
@@ -94,16 +100,32 @@ curl --location --request POST 'http://localhost:3080/register' \
     });
     
     app.post('/signin', (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
+    const incomingEmail = req.body.email;
+    const incomingPassword = req.body.password;
 
     if (!incomingEmail || !incomingPassword) {
       res.statusCode = 400;
       res.send('Incorrect username or password');
-      res.redirect('signIn')}
-    // Authenticated user
+      res.redirect('signIn')
+    }
+    // Authenticate user
+    // How?
+    // 1. Use incoming email to get data from DB
+    // 2. Use db password to match with incoming password
     else {
-      res.render('/products')
+      helpers.fetchPassword(db,incomingEmail).then((password) => {
+        if (password){
+          if(password.trim() === incomingPassword.trim()){
+            res.send('Login Success')
+          }
+          
+        }
+        else{
+          console.log('mismatch password');
+          res.send('can not login mismatch password');
+        }
+      })
+      //res.render('/products')
 
     }
     
