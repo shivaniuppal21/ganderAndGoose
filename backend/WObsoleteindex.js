@@ -229,6 +229,19 @@ curl --location --request POST 'http://localhost:3080/register' \
       //res.redirect('/signin')
     });
 
+const getTimestamp = function() {
+  date = new Date();
+  date = date.getUTCFullYear() + '-' +
+      ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
+      ('00' + date.getUTCDate()).slice(-2) + ' ' + 
+      ('00' + date.getUTCHours()).slice(-2) + ':' + 
+      ('00' + date.getUTCMinutes()).slice(-2) + ':' + 
+      ('00' + date.getUTCSeconds()).slice(-2);
+  return date
+}
+
+
+
 /* Add Product */
 
 app.post('/product', (req, res) => {
@@ -236,13 +249,14 @@ app.post('/product', (req, res) => {
   const uid = uuidv4();
   const title = req.body.title;
   const description = req.body.description;
-  const created_on = Date.now()
+  const created_on = getTimestamp()
   const price = req.body.price;
   const reviews = req.body.reviews;
   const category = req.body.category;
+  const image = req.body.image;
 
-  const query = `INSERT INTO Products (product_id,title,description,created_on,price,reviews,category)
-  VALUES ('${uid}','${title}','${description}','${created_on}','${price}','${reviews}','${category}')`;
+  const query = `INSERT INTO Products (product_id,title,description,created_on,price,reviews,category,image)
+  VALUES ('${uid}','${title}','${description}','${created_on}','${price}','${reviews}','${category}','${image}')`;
   
   // We should check if email exists
       db.query(query, (err, resp) => {
@@ -254,6 +268,31 @@ app.post('/product', (req, res) => {
        })
 })
 
+/* Get Product(s)*/
+
+app.get('/product:category/:pricelowtohigh:/:pricehightolow/:reviews', (req, res) => {
+  console.log(req.body)
+  const uid = uuidv4();
+  const title = req.body.title;
+  const description = req.body.description;
+  const created_on = getTimestamp()
+  const price = req.body.price;
+  const reviews = req.body.reviews;
+  const category = req.body.category;
+  const image = req.body.image;
+
+  const query = `INSERT INTO Products (product_id,title,description,created_on,price,reviews,category,image)
+  VALUES ('${uid}','${title}','${description}','${created_on}','${price}','${reviews}','${category}','${image}')`;
+  
+  // We should check if email exists
+      db.query(query, (err, resp) => {
+        if (err) {
+            console.error(err);
+        }
+        console.log('Product insert successful');
+        res.send('saved to DB');
+       })
+})
 
 
 

@@ -1,0 +1,5 @@
+Shivani Tasks
+
+1. Update Users Data model -> models/users.js -> Read doc and also add validation
+2. Update Products Data Model -> models/products.js -> Read doc and also add validation
+3. Get familiarized with https://sequelize.org/master/index.html

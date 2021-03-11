@@ -15,10 +15,11 @@ CREATE TABLE IF NOT EXISTS Products (
   product_id varchar(127) PRIMARY KEY not null,
   title varchar(255) not null,
   description text not null,
-  created_on TIMESTAMP NOT NULL,
+  created_on TIMESTAMP,
   price VARCHAR,
   reviews INT,
-  category VARCHAR
+  category VARCHAR,
+  image VARCHAR
 );
 Insert INTO
   Users (
@@ -63,7 +64,8 @@ Insert INTO
     created_on,
     price,
     reviews,
-    category
+    category,
+    image
   )
 VALUES
   (
@@ -73,7 +75,8 @@ VALUES
     '2021-01-19 03:14:07',
     '85',
     3,
-    'name planque'
+    'name planque',
+    'http://jsdbhjsbd'
   ),
   (
     '2',
@@ -82,5 +85,6 @@ VALUES
     '2021-01-19 03:14:07',
     '100',
     4,
-    'toys'
+    'toys',
+    'http://jsdbhjsbd'
   );
