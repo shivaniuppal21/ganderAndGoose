@@ -2,20 +2,20 @@ const conn = require('./db');
 
 const User = conn.define('user', {
     // Model attributes are defined here
-    id: {
+    /*id: {
         allowNull: false,
         primaryKey:true,
         type: conn.Sequelize.UUID,
         unique: true,
         validate: {
              isUUID: 4
-        }
-  },
-  /* id: {
-    type: DataTypes.INTEGER(11),
+        
+  },}*/
+    id: {
+    type: conn.Sequelize.INTEGER(11),
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true */
+    autoIncrement: true },
 
     firstName: {
         type: conn.Sequelize.STRING,
@@ -73,7 +73,7 @@ const User = conn.define('user', {
         }
     },
 }, {
-        indexes: [{ unique: true, fields: ['email'] }] //what does this represent??
+        indexes: [{ unique: true, fields: ['email'] }] 
     });
 
 module.exports = User;

@@ -10,28 +10,26 @@ product_id: {
   },
 title: {
     type: conn.Sequelize.STRING(50),
-    allowNull: false,
+    //allowNull: false,
 },
 description: {
   type: conn.Sequelize.TEXT,
 },
 price: {
   type: conn.Sequelize.DECIMAL(20, 2),
-  allowNull: false,
+  //allowNull: false,
 },
 stock: {
   type: conn.Sequelize.INTEGER(11),
-  allowNull: false,
+  //allowNull: false,
 },
 createdAt: {
   type: conn.Sequelize.DATE,
-  allowNull: false,
+  //allowNull: false,
   defaultValue: new Date(),
   field: 'created_at'
 },
 });
-
-
 
 
 //Product.hasMany(ProductImage, {as: 'images', foreignKey: 'product_id'});
