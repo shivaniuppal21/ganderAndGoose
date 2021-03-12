@@ -4,7 +4,7 @@ const ProductImage = require('../models/ProductImage')
 const Product = conn.define('product', {
 product_id: {
     type: conn.Sequelize.INTEGER(11),
-    allowNull: false,
+    //allowNull: false,
     primaryKey:true,
     autoIncrement: true,
   },
@@ -28,6 +28,16 @@ createdAt: {
   //allowNull: false,
   defaultValue: new Date(),
   field: 'created_at'
+},
+updatedAt: {
+  type: conn.Sequelize.DATE,
+  allowNull: false,
+  defaultValue: new Date(),
+  field: 'updated_at'
+},
+rating : {
+  type : conn.Sequelize.INTEGER,
+  Default : 0
 },
 });
 

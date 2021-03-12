@@ -66,6 +66,10 @@ const User = conn.define('user', {
             notEmpty: { msg: 'Please complete Country' }
         }
     },
+
+    isAdmin:{
+        type: conn.Sequelize.BOOLEAN
+    },
 }, {
         indexes: [{ unique: true, fields: ['email'] }] 
     });

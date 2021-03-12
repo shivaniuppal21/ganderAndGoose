@@ -5,7 +5,6 @@ const secret = process.env.SECRET || 'foo';
 const refreshTokenSecret = 'yourrefreshtokensecrethere';
 let refreshTokens = [];
 
-
 module.exports = app;
 
 const authenticateJWT = (req, res, next) => {
@@ -18,7 +17,6 @@ const authenticateJWT = (req, res, next) => {
           if (err) {
               return res.sendStatus(403);
           }
-
           req.userid = userid;
           next();
       });
@@ -27,11 +25,9 @@ const authenticateJWT = (req, res, next) => {
   }
 }
 
-
 //  request handler that generated new tokens based on the refresh tokens:
 app.post('/token', (req, res) => {
   const { token } = req.body;
-
   if (!token) {
       return res.sendStatus(401);
   }
@@ -45,9 +41,9 @@ app.post('/token', (req, res) => {
           return res.sendStatus(403);
       }
 
-      const accessToken = jwt.sign({ username: user.username, role: user.role }, secret, { expiresIn: '10m' });
+  const accessToken = jwt.sign({ username: user.username, role: user.role }, secret, { expiresIn: '10m' });
 
-      res.json({
+    res.json({
           accessToken
       });
   });

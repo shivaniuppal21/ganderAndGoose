@@ -23,6 +23,7 @@ app.post('/register', (req, res, next)=> {
     })
     .catch( err => res.status(500).send(err))
 });
+// create admin
 
 
 // get all completed orders from user
@@ -50,4 +51,28 @@ app.get('/:userId/orders', (req, res, next) => {
         res.send(orders)
     })
     .catch(next)
+});
+
+//delete user
+app.post('/:userId', (req, res, next) => {
+    User.findById(req.params.userId).exec()
+        .then(user => {
+            if(!user){
+                return res.status(404).json({
+                    message: 'User not found'
+                })
+            } else {
+                User.deleteOne({_id: req.params.userId}).exec()
+                .then(result => {
+                    res.status(200).json({
+                        message: 'User deleted'
+                    })
+                })
+                .catch(err => {
+                    res.status(500).json({
+                        error: err
+                    })
+                });
+            }
+});
 });
