@@ -1,35 +1,40 @@
 const conn = require('./db');
+const ProductImage = require('../models/ProductImage')
 
 const Product = conn.define('product', {
 product_id: {
     type: conn.Sequelize.INTEGER(11),
     allowNull: false,
+    primaryKey:true,
     autoIncrement: true,
   },
 title: {
-    type: STRING(50),
+    type: conn.Sequelize.STRING(50),
     allowNull: false,
 },
 description: {
-  type: TEXT,
+  type: conn.Sequelize.TEXT,
 },
 price: {
-  type: DECIMAL(20, 2),
+  type: conn.Sequelize.DECIMAL(20, 2),
   allowNull: false,
 },
 stock: {
-  type: INTEGER(11),
+  type: conn.Sequelize.INTEGER(11),
   allowNull: false,
 },
 createdAt: {
-  type: DATE,
+  type: conn.Sequelize.DATE,
   allowNull: false,
   defaultValue: new Date(),
   field: 'created_at'
 },
 });
 
-Product.hasMany(models.ProductImage, {as: 'images'});
+
+
+
+//Product.hasMany(ProductImage, {as: 'images', foreignKey: 'product_id'});
  // imgURL: conn.Sequelize.STRING
 
 

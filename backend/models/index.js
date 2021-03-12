@@ -5,6 +5,11 @@ const Order = require('./Order');
 const OrderLine = require('./OrderLine');
 const Address = require('./Address');
 const products = require('./products.json');
+const ProductImage = require('./ProductImage');
+
+ProductImage.belongsTo(Product)
+Product.hasMany(ProductImage);
+
 
 Order.belongsTo(User); // creates userId
 User.hasMany(Order);

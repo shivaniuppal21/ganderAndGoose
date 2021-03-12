@@ -4,7 +4,8 @@ const User = conn.define('user', {
     // Model attributes are defined here
     id: {
         allowNull: false,
-        type: DataTypes.UUID,
+        primaryKey:true,
+        type: conn.Sequelize.UUID,
         unique: true,
         validate: {
              isUUID: 4
