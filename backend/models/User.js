@@ -47,12 +47,6 @@ const User = conn.define('user', {
             notEmpty: { msg: 'Please complete Password' }
         }
     },
-    confirmPassword: {
-        type: conn.Sequelize.STRING,
-        validate: {
-            notEmpty: { msg: 'Please complete Confirm Password' }
-        }
-    },
     mobile: {
         type: conn.Sequelize.STRING,
         validate: {

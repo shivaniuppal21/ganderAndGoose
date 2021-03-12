@@ -1,5 +1,6 @@
 const app = require('express').Router();
 const models = require('../models').models;
+const session = require('./session').models;
 
 module.exports = app;
 
