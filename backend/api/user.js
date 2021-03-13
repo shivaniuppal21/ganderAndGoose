@@ -10,18 +10,29 @@ app.post('/register', (req, res, next)=> {
     models.User.create(req.body.userInfo)
     .then( user => {
         return models.Order.create({ status: 'pending', userId: user.id })
-        .then( order => {
-            let orderlines = req.body.cart.cartItems.map( line => {
-                return models.OrderLine.create({
-                    qty: line.qty,
-                    productId: line.productId,
-                    orderId: order.id })
-            })
-            return Promise.all(orderlines)
-        })
+        /*.then( order => {
+            console.log(order)
+            let orderlines = ""
+            if (req.body.cart.cartItems)
+            {
+                console.log(req.body.cart.cartItems)
+                orderlines = req.body.cart.cartItems.map( line => {
+                    return models.OrderLine.create({
+                        qty: line.qty,
+                        productId: line.productId,
+                        orderId: order.id })
+                })
+            }
+
+            console.log("'Orderlines after that'")
+            console.log(orderlines)
+            return resolve()
+        })*/
         .then( () => res.send(user))
     })
-    .catch( err => res.status(500).send(err))
+    .catch( err => {
+        console.log("i am siutting in error")
+        res.status(500).send(err)})
 });
 // create admin
 

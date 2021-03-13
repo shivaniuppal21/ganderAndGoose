@@ -60,7 +60,7 @@ const User = conn.define('user', {
             notEmpty: { msg: 'Please complete Zip Code' }
         }
     },
-    Country: {
+    country: {
         type: conn.Sequelize.STRING,
         validate: {
             notEmpty: { msg: 'Please complete Country' }

@@ -11,14 +11,24 @@ import Context from "./Context";
 export default class App extends Component {
   constructor(props) {
     super(props);
+    
     this.state = {
       user: null,
       cart: {},
       products: []
     };
+    //this.state = { apiResponse: "" };
     this.routerRef = React.createRef();
   }
+  /*callAPI() {
+    fetch("http://localhost:9000/testAPI")
+        .then(res => res.text())
+        .then(res => this.setState({ apiResponse: res }));
+}
 
+componentWillMount() {
+    this.callAPI();
+}*/
   render() {
     return (
       <Context.Provider
