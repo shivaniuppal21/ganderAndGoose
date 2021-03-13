@@ -1,10 +1,11 @@
 const app = require('express').Router();
 const models = require('../models').models;
-const session = require('./session').models;
+const authenticateJWT = require('./check-auth');
 
 module.exports = app;
 
-app.get('/:orderId', (req, res, next) => {
+
+app.get('/:orderId',authenticateJWT, (req, res, next) => {
     models.Order.findAll(
         {
             where: { id: req.params.orderId },

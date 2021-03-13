@@ -5,26 +5,11 @@ const secret = process.env.SECRET || 'foo';
 const refreshTokenSecret = 'yourrefreshtokensecrethere';
 let refreshTokens = [];
 
+
 module.exports = app;
 
-const authenticateJWT = (req, res, next) => {
-  const authHeader = req.headers.authorization;
 
-  if (authHeader) {
-      const token = authHeader.split(' ')[1];
-
-      jwt.verify(token, secret, (err, userid) => {
-          if (err) {
-              return res.sendStatus(403);
-          }
-          req.userid = userid;
-          next();
-      });
-  } else {
-      res.sendStatus(401);
-  }
-}
-
+//module.exports = authenticateJWT;
 //  request handler that generated new tokens based on the refresh tokens:
 app.post('/token', (req, res) => {
   const { token } = req.body;
@@ -52,6 +37,8 @@ app.post('/token', (req, res) => {
 
 // user login
 app.post('/login', (req, res, next)=> {
+  console.log(req.body.email)
+  console.log(req.body.password)
   models.User.findOne({
     where: {
       email: req.body.email,
@@ -59,6 +46,7 @@ app.post('/login', (req, res, next)=> {
     }
   })
   .then( user => {
+    console.log(user)
     if(user){
       const token = jwt.sign({id: user.id}, secret,{ expiresIn: '10m' });
       const refreshToken = jwt.sign({id: user.id}, refreshTokenSecret);
@@ -87,31 +75,3 @@ app.post('/logout', (req, res) => {
 });
 
 
-// GET should get the users cart somehow....
-app.get('/orders/:status?',authenticateJWT, (req, res, next) => {
-    try{
-      let ordercondition = {}
-      ordercondition.userId = req.userid.id
-      if (req.params.status){
-        ordercondition.status = req.params.status
-      }
-        //const token = jwt.decode(req.params.token, secret);
-        models.User.findOne({
-          where: { id: req.userid.id },
-          include: [{
-            model: models.Order,
-            where: ordercondition
-          }]
-        })
-        .then( user => {
-            if(!user) {
-                return res.sendStatus(401)
-            }
-            res.send(user)
-        })
-    }
-    catch(err) {
-      console.log(err)
-        res.sendStatus(500)
-    }
-});

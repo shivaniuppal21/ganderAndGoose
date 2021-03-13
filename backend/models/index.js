@@ -67,6 +67,9 @@ module.exports = {
     Product,
     User,
     Order,
+    OrderLine,
+    Address,
+    ProductImage
   },
   sync,
   seed
