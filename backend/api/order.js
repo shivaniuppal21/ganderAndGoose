@@ -6,9 +6,13 @@ module.exports = app;
 
 
 app.get('/:orderId',authenticateJWT, (req, res, next) => {
+    console.log(req.userid)
     models.Order.findAll(
         {
-            where: { id: req.params.orderId },
+            where: { id: req.params.orderId,
+                userId: req.userid.id
+             },
+
             include: [
                 {
                     model: models.OrderLine,
