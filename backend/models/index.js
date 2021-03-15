@@ -4,12 +4,15 @@ const User = require('./User');
 const Order = require('./Order');
 const OrderLine = require('./OrderLine');
 const Address = require('./Address');
-const products = require('./products.json');
+let products = require('./products.json');
 const ProductImage = require('./ProductImage');
+const Category = require('./Category');
 
 ProductImage.belongsTo(Product)
 Product.hasMany(ProductImage);
 
+Product.belongsTo(Category); // created category id 
+Category.hasMany(Product)
 
 Order.belongsTo(User); // creates userId
 User.hasMany(Order);
@@ -21,7 +24,22 @@ Product.hasMany(OrderLine);
 
 Order.belongsTo(Address, { as: 'shipping' });
 Order.belongsTo(Address, { as: 'billing' });
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
 
+/**
+* Returns a random integer between min (inclusive) and max (inclusive).
+* The value is no lower than min (or the next integer greater than min
+* if min isn't an integer) and no greater than max (or the next integer
+* lower than max if max isn't an integer).
+* Using Math.round() will give you a non-uniform distribution!
+*/
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 const sync = () => conn.sync({ force: true });
 
 const seed = () => {
@@ -31,12 +49,23 @@ const seed = () => {
     { firstName: 'Harish', lastName: 'tadikona', email: 'harish11.tadikonda@gmail.com', password: 'harish29' },
     { firstName: 'Kris', lastName: 'Alnes', email: 'kris.alnes@gmail.com', password: 'kdog' }];
 
+
+    const category = [
+      { name: 'Mauro', description: 'Restuccia12'},
+      { name: 'Mauro', description: 'Restuccia343' }
+    ]
   const shippingAddress = { addressLine1: '123 Green ave', addressLine2: 'apt 4', city: 'Brooklyn', state: 'NY', zip: '11211', country: 'USA' };
   const billingAddress = { addressLine1: '60 Berry Street', addressLine2: 'apt 4D', city: 'Brooklyn', state: 'NY', zip: '11211', country: 'USA' };
 
   return sync()
     .then(() => {
-      const productPromises = products.map(product => Product.create(product));
+      const categoryPromise = category.map((category) => {
+        Category.create( category ) 
+      })
+      const productPromises = products.map((product) => {
+        product.categoryId = getRandomInt(0,2)
+        Product.create( product) 
+      })
       const userPromises = users.map(user => User.create(user));
       const shippingTest = Address.create(shippingAddress, { as: 'shipping' })
       const billingTest = Address.create(billingAddress, { as: 'billing' })
@@ -69,7 +98,8 @@ module.exports = {
     Order,
     OrderLine,
     Address,
-    ProductImage
+    ProductImage,
+    Category
   },
   sync,
   seed

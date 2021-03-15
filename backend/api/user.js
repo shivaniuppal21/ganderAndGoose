@@ -4,7 +4,6 @@ const authenticateJWT = require('./check-auth');
 
 module.exports = app;
 
-
 /* CREATE user and CREATE empty order */
 app.post('/register', (req, res, next)=> {
     //  assumes the user does not exist in db already
@@ -68,7 +67,6 @@ app.get('/order/:status?',authenticateJWT, (req, res, next) => {
     }
 });
 
-
 // get all completed orders from user
 app.get('/:userId/orders', (req, res, next) => {
     models.Order.findAll({ where: {
@@ -96,8 +94,56 @@ app.get('/:userId/orders', (req, res, next) => {
     .catch(next)
 });
 
+// addcart and orders if the user already exists (verified by authenticateJWT)
+// add new order if no order is provided otherwise update the existing order with orderlines(cartitems)
+app.post('/addtocart/:orderId?', authenticateJWT,(req, res, next) => {
+    console.log(req.body)
+    if (!req.body || !req.body.cart || !req.body.cart.cartItems)
+    {
+        console.log("Cart Empty")
+        return res.send("Cart empty")
+    }
+// if no orderID in params, create new order
+new Promise((resolve,reject) =>
+{   let orderId;
+    if(!req.params.orderId){
+        console.log(req.userid.id)
+        return models.Order.create({ status:'pending', userId: req.userid.id })
+        .then(order =>{
+            console.log(order.id)
+            orderId = order.id
+            return resolve(orderId)
+        })
+        .catch(err =>{
+            console.log(err)
+        })
+    }else {
+        orderId = req.params.orderId 
+    }
+     return resolve(orderId)
+}).then((orderId) => {
+    console.log(req.body.cart.cartItems)
+
+    let orderlines = req.body.cart.cartItems.map( line => {
+        console.log(line)
+        console.log( orderId)
+    // if productId already exists in orderline then update method to be used
+       return  models.OrderLine.create({
+            qty: line.qty,
+            productId: line.productId,
+            orderId: orderId
+         })
+    })
+    return Promise.all(orderlines)
+})
+.then( () => res.send(orderlines))
+.catch( err => {
+    res.status(500).send(err)})
+});
+
+
 //delete user
-app.post('/:userId', (req, res, next) => {
+app.delete('/:userId', (req, res, next) => {
     User.findById(req.params.userId).exec()
         .then(user => {
             if(!user){

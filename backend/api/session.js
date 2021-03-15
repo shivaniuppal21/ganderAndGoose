@@ -9,7 +9,6 @@ let refreshTokens = [];
 module.exports = app;
 
 
-//module.exports = authenticateJWT;
 //  request handler that generated new tokens based on the refresh tokens:
 app.post('/token', (req, res) => {
   const { token } = req.body;
@@ -20,12 +19,10 @@ app.post('/token', (req, res) => {
   if (!refreshTokens.includes(token)) {
       return res.sendStatus(403);
   }
-
   jwt.verify(token, refreshTokenSecret, (err, user) => {
       if (err) {
           return res.sendStatus(403);
       }
-
   const accessToken = jwt.sign({ username: user.username, role: user.role }, secret, { expiresIn: '10m' });
 
     res.json({
@@ -33,7 +30,6 @@ app.post('/token', (req, res) => {
       });
   });
 });
-
 
 // user login
 app.post('/login', (req, res, next)=> {
@@ -58,7 +54,7 @@ app.post('/login', (req, res, next)=> {
   })
   .catch(next);
 });
-
+  
 app.post('/logout', (req, res) => {
   console.log(req.body)
   const token = req.body.token;

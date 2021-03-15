@@ -16,6 +16,7 @@ module.exports =  (req, res, next) => {
             next();
         });
     } else {
+        console.log("User not logged in")
         res.sendStatus(401);
     }
   } 
