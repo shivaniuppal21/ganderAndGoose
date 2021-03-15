@@ -63,13 +63,13 @@ const seed = () => {
         Category.create( category ) 
       })
       const productPromises = products.map((product) => {
-        product.categoryId = getRandomInt(0,2)
+        product.categoryId = 1//getRandomInt(0,2)
         Product.create( product) 
       })
       const userPromises = users.map(user => User.create(user));
       const shippingTest = Address.create(shippingAddress, { as: 'shipping' })
       const billingTest = Address.create(billingAddress, { as: 'billing' })
-      return Promise.all([productPromises, userPromises, shippingTest, billingTest])
+      return Promise.all([categoryPromise,productPromises, userPromises, shippingTest, billingTest])
     })
     .then(() => {
       const orderOne = Order.create({ userId: 3, status: 'pending', shippingId: 1, billingId: 2

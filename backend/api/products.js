@@ -33,3 +33,37 @@ app.delete('/:id', (req, res, next)=> {
     .then( () => res.sendStatus(204))
     .catch(next);
 });
+
+// admin level api (later add autherization)
+app.post('/addcategory', (req, res, next)=> {
+  //  assumes the user does not exist in db already
+  models.Category.create(req.body)
+  .then(category =>{
+    res.send(category)
+  })
+})
+
+// admin level api
+//update product
+
+app.post('/update/:id', (req, res, next)=> {
+  new Promise( (resolve,reject) => {
+    if (req.params.id){
+      models.Product.update(
+        req.body,
+        { where: { id: req.params.id } }
+      )
+        .then(result => {
+          return resolve(result) }
+        )
+        .catch(err =>
+          {
+            return reject(err) }
+        )
+    }
+  })
+  .then( (result) => res.send(result))
+  .catch( err => {
+    res.status(500).send(err)})
+  
+});

@@ -2,17 +2,14 @@ const conn = require('./db');
 const ProductImage = require('../models/ProductImage')
 
 const Product = conn.define('product', {
-id: {
-    type: conn.Sequelize.INTEGER(11),
-    //allowNull: false,
-    primaryKey:true,
-    autoIncrement: true,
-  },
 title: {
     type: conn.Sequelize.STRING(50),
     //allowNull: false,
 },
 description: {
+  type: conn.Sequelize.TEXT,
+},
+productDetails: {
   type: conn.Sequelize.TEXT,
 },
 price: {
