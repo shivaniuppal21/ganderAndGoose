@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactSelect from 'react-select';
+import axios from 'axios';
 
 class SignUp extends Component {
   constructor() {
@@ -143,6 +144,17 @@ class SignUp extends Component {
       return false;
     }
     console.log('Data: ', form);
+    let data = JSON.stringify({
+      userInfo: form,
+    });
+    
+    axios.post("http://localhost:3090/api/user/register",data,{headers:{"Content-Type" : "application/json"}})
+    .then(resp => {
+      console.log(resp);
+    }).catch(err => {
+      // Handle Error Here
+      console.error(err.response.data);
+    });
   };
 
   render() {
