@@ -14,7 +14,7 @@ const initState = {
 };
 
 export default function AddProduct(props) {
-  const state = initState;
+  const [state,setState] = useState(initState);
   const user = {accessLevel : 0};
   const [isSetOptions, setOptions] = useState(false);
   const [isSetCustomizations, setCustomizations] = useState(false);
@@ -22,35 +22,45 @@ export default function AddProduct(props) {
     e.preventDefault();
     const { name, price, stock, shortDesc, description } = state;
     if (name && price) {
-      const id = Math.random().toString(36).substring(2) + Date.now().toString(36);
-
       axios.post(
-        'http://localhost:3001/products',
-        { id, name, price, stock, shortDesc, description },
-      )
-
-      this.props.addProduct(
+        'http://localhost:3090/api/products/create',
         {
-          name,
-          price,
-          shortDesc,
-          description,
-          stock: stock || 0
+          title: name, 
+          price:price, 
+          stock:stock,
+          description: shortDesc,
+          productDetails:description 
         },
-        () => this.setState(initState)
-      );
-      this.setState(
-        { flash: { status: 'is-success', msg: 'Product created successfully' }}
-      );
+        {headers:{"Content-Type" : "application/json"}}
+      ).then(resp => {
+        console.log(resp);
+      }).catch(err => {
+        // Handle Error Here
+        console.error(err);
+      });
+
+      // this.props.addProduct(
+      //   {
+      //     name,
+      //     price,
+      //     description:shortDesc,
+      //     productDetails:description,
+      //     stock: stock || 0
+      //   },
+      //   () => setState(initState)
+      // );
+      // setState(
+      //   { flash: { status: 'is-success', msg: 'Product created successfully' }}
+      // );
 
     } else {
-      this.setState(
-        { flash: { status: 'is-danger', msg: 'Please enter name and price' }}
-      );
+      // setState(
+      //   { flash: { status: 'is-danger', msg: 'Please enter name and price' }}
+      // );
     }
   };
 
-  function handleChange(e) {this.setState({ [e.target.name]: e.target.value, error: "" })};
+  function handleChange(e) {setState({...state, [e.target.name]: e.target.value })};
   function handleOptionsChange(val) {  
     setOptions(val);
   };
