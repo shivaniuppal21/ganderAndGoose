@@ -31,7 +31,13 @@ export default function AddProduct(props) {
           description: shortDesc,
           productDetails:description 
         },
-        {headers:{"Content-Type" : "application/json"}}
+        {
+          headers:
+          {
+            "Content-Type" : "application/json",
+            'Authorization': `Basic ${localStorage.getItem('accessToken')}` 
+          }
+        }
       ).then(resp => {
         console.log(resp);
       }).catch(err => {
