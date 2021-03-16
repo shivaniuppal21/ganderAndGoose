@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 import Button from "react-bootstrap/Button";
 import "./login.css";
@@ -15,6 +16,18 @@ export default function Login() {
 
   function handleSubmit(event) {
     event.preventDefault();
+    let data = JSON.stringify({
+      email: email,
+      password: password
+    });
+    
+    axios.post("http://localhost:3090/api/user/login",data,{headers:{"Content-Type" : "application/json"}})
+    .then(resp => {
+      console.log(resp);
+    }).catch(err => {
+      // Handle Error Here
+      console.error(err);
+    });
   }
 
   return (
