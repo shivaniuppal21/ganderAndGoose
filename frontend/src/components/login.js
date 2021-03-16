@@ -23,7 +23,7 @@ export default function Login() {
     
     axios.post("http://localhost:3090/api/session/login",data,{headers:{"Content-Type" : "application/json"}})
     .then(resp => {
-      //console.log(resp);
+      console.log(resp);
       localStorage.setItem('accessToken',resp.data.token);
       localStorage.setItem('refreshToken',resp.data.refreshToken);
     }).catch(err => {
