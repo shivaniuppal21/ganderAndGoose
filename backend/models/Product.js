@@ -39,8 +39,4 @@ rating : {
 });
 
 
-//Product.hasMany(ProductImage, {as: 'images', foreignKey: 'product_id'});
- // imgURL: conn.Sequelize.STRING
-
-
 module.exports = Product;

@@ -22,7 +22,6 @@ const authenticateJWT = function(req, res, next) {
     }
   } 
 
-
   const authenticateAdmin = function(req, res, next) {
     const authHeader = req.headers.authorization;
   

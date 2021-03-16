@@ -3,22 +3,17 @@ const conn = require('./db');
 const ProductImage = conn.define(
     "productImage",
    {
-   id: {
-     type: conn.Sequelize.INTEGER,
-     primaryKey: true,
-   },
-   images: {
-     type: conn.Sequelize.STRING,
-   },
+    type: {
+      type: conn.Sequelize.STRING,
+    },
+    name: {
+      type: conn.Sequelize.STRING,
+    },
+    data: {
+      type: conn.Sequelize.BLOB("long"),
+    },
    });
    
    module.exports = ProductImage;
 
-   /*
-   ProductImage.associate = (models) => {
-    ProductImage.belongsTo(models.Product)
-    , {
-     foreignKey: "product_id",
-   };
-    };
-   */
+   

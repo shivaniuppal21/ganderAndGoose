@@ -19,3 +19,15 @@ Shivani Tasks
 1. Update Users Data model -> models/users.js -> Read doc and also add validation
 2. Update Products Data Model -> models/products.js -> Read doc and also add validation
 3. Get familiarized with https://sequelize.org/master/index.html
+
+
+File Structure : when sent from frontend/API
+
+{ fieldname: 'file',
+  originalname: '330px-Hw-newton.png',
+  encoding: '7bit',
+  mimetype: 'image/png',
+  destination: '',
+  filename: '330px-Hw-newton.png',
+  path: '330px-Hw-newton.png',
+  size: 63548 }
