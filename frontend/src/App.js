@@ -5,30 +5,22 @@ import Cart from './components/cart';
 import Login from './components/login';
 import ProductsList from './components/products-list';
 import SignUp from "./components/signup";
+import ProductDetails from "./components/product-details";
 
 import Context from "./Context";
+import "bulma/css/bulma.css";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
-    
     this.state = {
       user: null,
       cart: {},
       products: []
     };
-    //this.state = { apiResponse: "" };
     this.routerRef = React.createRef();
   }
-  /*callAPI() {
-    fetch("http://localhost:9000/testAPI")
-        .then(res => res.text())
-        .then(res => this.setState({ apiResponse: res }));
-}
 
-componentWillMount() {
-    this.callAPI();
-}*/
   render() {
     return (
       <Context.Provider
@@ -53,7 +45,7 @@ componentWillMount() {
               <b className="navbar-item is-size-4 ">GanderAndGoose</b>
               <label
                 role="button"
-                class="navbar-burger burger"
+                className="navbar-burger burger"
                 aria-label="menu"
                 aria-expanded="false"
                 data-target="navbarBasicExample"
@@ -73,11 +65,11 @@ componentWillMount() {
                 <Link to="/products" className="navbar-item">
                   Products
                 </Link>
-                {this.state.user && this.state.user.accessLevel < 1 && (
+                {/* {this.state.user && this.state.user.accessLevel < 1 && ( */}
                   <Link to="/add-product" className="navbar-item">
                     Add Product
                   </Link>
-                )}
+                {/* )} */}
                 <Link to="/cart" className="navbar-item">
                   Cart
                   <span
@@ -111,6 +103,7 @@ componentWillMount() {
               <Route exact path="/cart" component={Cart} />
               <Route exact path="/add-product" component={AddProduct} />
               <Route exact path="/products" component={ProductsList} />
+              <Route exact path="/product-details" component={ProductDetails} />
             </Switch>
           </div>
         </Router>

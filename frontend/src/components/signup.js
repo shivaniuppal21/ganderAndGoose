@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactSelect from 'react-select';
-import axios from 'axios'
+import axios from 'axios';
 
 class SignUp extends Component {
   constructor() {
@@ -136,7 +136,6 @@ class SignUp extends Component {
     return errorObj;
   };
 
-
   handleSubmit = () => {
     const { form, formErrors } = this.state;
     const errorObj = this.validateForm(form, formErrors, this.validateField);
@@ -148,7 +147,6 @@ class SignUp extends Component {
     let data = JSON.stringify({
       userInfo: form,
     });
-
     
     axios.post("http://localhost:3090/api/user/register",data,{headers:{"Content-Type" : "application/json"}})
     .then(resp => {
@@ -156,8 +154,7 @@ class SignUp extends Component {
     }).catch(err => {
       // Handle Error Here
       console.error(err.response.data);
-  });
-
+    });
   };
 
   render() {
