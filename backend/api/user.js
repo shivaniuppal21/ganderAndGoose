@@ -1,6 +1,6 @@
 const app = require('express').Router();
 const models = require('../models').models;
-const authenticateJWT = require('./check-auth');
+const authenticate = require('./check-auth');
 
 module.exports = app;
 
@@ -26,7 +26,6 @@ app.post('/register', (req, res, next)=> {
                      })
                 })
             }
-
             console.log("'Orderlines after that'")
             console.log(orderlines)
             return Promise.all(orderlines)
@@ -36,10 +35,10 @@ app.post('/register', (req, res, next)=> {
     .catch( err => {
         res.status(500).send(err)})
 });
-// create admin
+
 
 // GET should get the users cart somehow....
-app.get('/order/:status?',authenticateJWT, (req, res, next) => {
+app.get('/order/:status?',authenticate.authenticateJWT, (req, res, next) => {
     try{
       let ordercondition = {}
       ordercondition.userId = req.userid.id
@@ -96,7 +95,7 @@ app.get('/:userId/orders', (req, res, next) => {
 
 // addcart and orders if the user already exists (verified by authenticateJWT)
 // add new order if no order is provided otherwise update the existing order with orderlines(cartitems)
-app.post('/addtocart/:orderId?', authenticateJWT,(req, res, next) => {
+app.post('/addtocart/:orderId?', authenticate.authenticateJWT,(req, res, next) => {
     console.log(req.body)
     if (!req.body || !req.body.cart || !req.body.cart.cartItems)
     {

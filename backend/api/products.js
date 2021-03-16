@@ -1,5 +1,6 @@
 const app = require('express').Router();
 const models = require('../models').models;
+const authenticate = require('./check-auth');
 
 module.exports = app;
 
@@ -24,10 +25,7 @@ app.get('/:id', (req, res, next)=> {
       .catch(next);
   });
 
-
-
-
-
+// admin level api
 app.delete('/:id', (req, res, next)=> {
   models.Product.destroy({ where: { id: req.params.id}})
     .then( () => res.sendStatus(204))
@@ -36,7 +34,7 @@ app.delete('/:id', (req, res, next)=> {
 
 // admin level api (later add autherization)
 app.post('/addcategory', (req, res, next)=> {
-  //  assumes the user does not exist in db already
+  //  assumes the category does not exist in db already
   models.Category.create(req.body)
   .then(category =>{
     res.send(category)
@@ -45,7 +43,6 @@ app.post('/addcategory', (req, res, next)=> {
 
 // admin level api
 //update product
-
 app.post('/update/:id', (req, res, next)=> {
   new Promise( (resolve,reject) => {
     if (req.params.id){
@@ -67,3 +64,15 @@ app.post('/update/:id', (req, res, next)=> {
     res.status(500).send(err)})
   
 });
+
+//create product (admin level api)
+app.post('/create',authenticate.authenticateAdmin, (req, res, next)=> {
+  //  assumes the product does not exist in db already
+  console.log(req.userid)
+  models.Product.create(req.body)
+  .then(product =>{
+    res.send(product)
+  }).catch( err => {
+    res.status(400).send(err)})
+});
+

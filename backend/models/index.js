@@ -47,7 +47,8 @@ const seed = () => {
   const users = [
     { firstName: 'Mauro', lastName: 'Restuccia', email: 'mrestuccia@mac.com', password: 'mcat' },
     { firstName: 'Harish', lastName: 'tadikona', email: 'harish11.tadikonda@gmail.com', password: 'harish29' },
-    { firstName: 'Kris', lastName: 'Alnes', email: 'kris.alnes@gmail.com', password: 'kdog' }];
+    { firstName: 'Kris', lastName: 'Alnes', email: 'kris.alnes@gmail.com', password: 'kdog' },
+    { firstName: 'admin', lastName: 'admin', email: 'admin@gmail.com', password: 'admin',isAdmin:true }];
 
 
     const category = [
