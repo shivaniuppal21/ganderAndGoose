@@ -2,6 +2,7 @@ const app = require('express').Router();
 const models = require('../models').models;
 const authenticate = require('./check-auth');
 const upload = require('./uploadimage');
+const conn = require('../models/db');
 
 
 module.exports = app;
@@ -79,12 +80,25 @@ app.post('/create',authenticate.authenticateAdmin, (req, res, next)=> {
 });
 
 
-//to be taken out
 
 // upload images to product (admin level api)
 app.post('/uploadimage/:id', authenticate.authenticateAdmin, 
 upload.uploadFile.single("file"), upload.uploadFiles,
 (req, res) => {
+  console.log(res.status)
 
 })
 
+app.delete('/image/:productid/:name',authenticate.authenticateAdmin, (req, res, next)=> {
+  console.log(req.params.type)
+models.ProductImage.destroy({ where: { name: req.params.name}})
+.then( () => {
+  return models.Product.update(
+    {images : conn.Sequelize.fn('array_remove', conn.Sequelize.col('images'), req.params.name)},
+    { where: { id: req.params.productid } } )
+    .then(() => {
+      res.sendStatus(204)
+    })
+})
+.catch(next);
+})
