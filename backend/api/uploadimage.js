@@ -1,8 +1,11 @@
 const multer = require('multer')
 global.__basedir = __dirname;
 const models = require('../models').models;
+const conn = require('../models/db');
+var path = require('path');
 
 const fs = require("fs");
+var root = path.dirname(require.main.filename)
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -19,15 +22,16 @@ const uploadFiles = async (req, res) => {
       console.log(req.file);
   
       if (req.file == undefined) {
-        return res.send(`You must select a file.`);
+        return res.status(400).send(`You must select a file.`);
       }
-      console.log(req.file)
+   //const filename = path.basename( req.file, extname );
 
+    //var absolutePath = path.join(root,req.file.filename.path) 
       models.ProductImage.create({
         type: req.file.mimetype,
         name: req.file.originalname,
         data: fs.readFileSync(
-          __basedir + "/public/images/product/" + req.file.filename
+            __basedir + "/public/images/product/" + req.file.originalname
         ),
         productId: req.params.id
       }).then((image) => {
@@ -36,12 +40,16 @@ const uploadFiles = async (req, res) => {
           __basedir + "/uploads/" + image.name,
           image.data
         );
-  
-        return res.send(`File has been uploaded.`);
+        return models.Product.update(
+            {images : conn.Sequelize.fn('array_append', conn.Sequelize.col('images'), image.name)},
+            { where: { id: req.params.id } } )
+      .then(()=>{
+        return res.status(200).send(req.file);
+      })
       });
     } catch (error) {
       console.log(error);
-      return res.send(`Error when trying upload images: ${error}`);
+      return res.status(500).send(`Error when trying upload images: ${error}`);
     }
   };
   

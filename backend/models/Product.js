@@ -36,6 +36,10 @@ rating : {
   type : conn.Sequelize.INTEGER,
   Default : 0
 },
+images : {
+  type : conn.Sequelize.ARRAY(conn.Sequelize.STRING),
+  Default : 0
+},
 });
 
 
