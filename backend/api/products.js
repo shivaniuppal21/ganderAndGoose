@@ -3,6 +3,8 @@ const models = require('../models').models;
 const authenticate = require('./check-auth');
 const upload = require('./uploadimage');
 const conn = require('../models/db');
+const fs = require("fs");
+
 
 
 module.exports = app;
@@ -82,10 +84,44 @@ app.post('/create',authenticate.authenticateAdmin, (req, res, next)=> {
 
 
 // upload images to product (admin level api)
-app.post('/uploadimage/:id', authenticate.authenticateAdmin, 
-upload.uploadFile.single("file"), upload.uploadFiles,
+app.post('/uploadimage', authenticate.authenticateAdmin, 
+upload.uploadFile.single("file"),
 (req, res) => {
-  console.log(res.status)
+  console.log(req.body)
+  try {
+    console.log(req.file);
+
+    if (req.file == undefined) {
+      return res.status(400).send(`You must select a file.`);
+    }
+ //const filename = path.basename( req.file, extname );
+
+  //var absolutePath = path.join(root,req.file.filename.path) 
+    models.ProductImage.create({
+      type: req.file.mimetype,
+      name: req.file.originalname,
+      data: fs.readFileSync(
+          __basedir + "/public/images/product/" + req.file.originalname
+      ),
+      productId: req.params.id
+    }).then((image) => {
+      fs.writeFileSync(
+          // Eventually frontend to decide
+        __basedir + "/uploads/" + req.file.filename,
+        image.data
+      );
+      /*return models.Product.update(
+          {images : conn.Sequelize.fn('array_append', conn.Sequelize.col('images'), image.name)},
+          { where: { id: req.params.id } } )
+    .then(()=>{
+      return res.status(200).send(req.file);
+    })*/
+    return res.status(200).send(__basedir + "/uploads/" + req.file.filename);
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(`Error when trying upload images: ${error}`);
+  }
 
 })
 
@@ -93,12 +129,15 @@ app.delete('/image/:productid/:name',authenticate.authenticateAdmin, (req, res, 
   console.log(req.params.type)
 models.ProductImage.destroy({ where: { name: req.params.name}})
 .then( () => {
-  return models.Product.update(
+  /*return models.Product.update(
     {images : conn.Sequelize.fn('array_remove', conn.Sequelize.col('images'), req.params.name)},
     { where: { id: req.params.productid } } )
     .then(() => {
       res.sendStatus(204)
-    })
+    })*/
+    // TODO
+    // Delete from the defined folder as well
+    res.sendStatus(204)
 })
 .catch(next);
 })

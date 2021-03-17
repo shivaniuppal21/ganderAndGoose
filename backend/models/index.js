@@ -7,6 +7,8 @@ const Address = require('./Address');
 let products = require('./products.json');
 const ProductImage = require('./ProductImage');
 const Category = require('./Category');
+const Productvariants = require('./Productvariants');
+const Customization = require('./Customization');
 
 ProductImage.belongsTo(Product) // created product  id
 Product.hasMany(ProductImage);
@@ -14,6 +16,8 @@ Product.hasMany(ProductImage);
 Product.belongsTo(Category,{}); // created category id 
 Category.hasMany(Product);
 
+Product.hasMany(Productvariants);
+Product.hasMany(Customization);
 
 Order.belongsTo(User); // creates userId
 User.hasMany(Order);

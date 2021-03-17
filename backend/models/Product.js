@@ -1,4 +1,6 @@
 const conn = require('./db');
+const Customization = require('./Customization');
+
 const ProductImage = require('../models/ProductImage')
 
 const Product = conn.define('product', {
@@ -39,6 +41,9 @@ rating : {
 images : {
   type : conn.Sequelize.ARRAY(conn.Sequelize.STRING),
   Default : 0
+},
+customization:{
+  type : conn.Sequelize.ARRAY(conn.Sequelize.JSON)
 },
 });
 

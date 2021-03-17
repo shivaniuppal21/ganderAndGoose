@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
     cb(null, '')
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname)
+    cb(null, file.fieldname + '-' + Date.now() +'-'+ file.originalname)
   }
 })
 let uploadFile = multer({ storage: storage})
@@ -40,12 +40,13 @@ const uploadFiles = async (req, res) => {
           __basedir + "/uploads/" + image.name,
           image.data
         );
-        return models.Product.update(
+        /*return models.Product.update(
             {images : conn.Sequelize.fn('array_append', conn.Sequelize.col('images'), image.name)},
             { where: { id: req.params.id } } )
       .then(()=>{
         return res.status(200).send(req.file);
-      })
+      })*/
+      return res.status(200).send(__basedir + "/uploads/" + image.name);
       });
     } catch (error) {
       console.log(error);

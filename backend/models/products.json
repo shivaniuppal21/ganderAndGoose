@@ -14,7 +14,13 @@
     "title": "Geometry Shoulder Bag",
     "price": 139,
     "description": "Don says this is the geometric bag that all the hippies used to wear. Everyone had this in the 70s, but no one had the zipper figured out. Two snap button adjusts the size. Strap also adjustable.\nBlack cow hide with brown suede interior.",
-    "productDetails": "Style # 007\nStyle type: Shoulder Bag / Hand Bag\nSize:W:11.8\"(30cm) / H:11.8\"(30cm)\nLength of Shoulder Strap:43\" max (111cm)\nBody Weight:\nType of Closure: Zipper / 2 snap buttons\nMaterial 100% Leather\nColor Black\nInterior Brown"
+    "productDetails": "Style # 007\nStyle type: Shoulder Bag / Hand Bag\nSize:W:11.8\"(30cm) / H:11.8\"(30cm)\nLength of Shoulder Strap:43\" max (111cm)\nBody Weight:\nType of Closure: Zipper / 2 snap buttons\nMaterial 100% Leather\nColor Black\nInterior Brown",
+    "customization":[
+      {
+        "color":"sd",
+        "price":4
+      }
+    ]
   },
   {
     "title": "Minimalist Envelope Handbag",
