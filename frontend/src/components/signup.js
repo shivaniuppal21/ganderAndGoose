@@ -147,13 +147,13 @@ class SignUp extends Component {
     let data = JSON.stringify({
       userInfo: form,
     });
-    
     axios.post("http://localhost:3090/api/user/register",data,{headers:{"Content-Type" : "application/json"}})
     .then(resp => {
       console.log(resp);
+      this.props.history.push("/login");
     }).catch(err => {
       // Handle Error Here
-      console.error(err.response.data);
+      console.error(err);
     });
   };
 

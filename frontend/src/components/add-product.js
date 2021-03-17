@@ -10,7 +10,10 @@ const initState = {
   price: "",
   stock: "",
   shortDesc: "",
-  description: ""
+  description: "",
+  imageId: null,
+  variants:[],
+  customizations:[]
 };
 
 export default function AddProduct(props) {
@@ -20,7 +23,7 @@ export default function AddProduct(props) {
   const [isSetCustomizations, setCustomizations] = useState(false);
   function save(e) {
     e.preventDefault();
-    const { name, price, stock, shortDesc, description } = state;
+    const { name, price, stock, shortDesc, description,imageId,variants,customizations } = state;
     if (name && price) {
       axios.post(
         'http://localhost:3090/api/products/create',
@@ -29,7 +32,10 @@ export default function AddProduct(props) {
           price:price, 
           stock:stock,
           description: shortDesc,
-          productDetails:description 
+          productDetails:description,
+          imageId:imageId,
+          variants:variants,
+          customizations:customizations
         },
         {
           headers:
@@ -72,6 +78,40 @@ export default function AddProduct(props) {
   };
   function handleCustomizationsChange(val) {  
     setCustomizations(val);
+  };
+  function saveVariants(data) {
+    console.log(data);
+    setState({...state, variants: data });
+  }
+  function saveCustomizations(data) {
+    console.log(data);
+    setState({...state, customizations: data })
+  }
+  function onFileChange(event) {
+    console.log(event.target.files[0]);
+    let selectedFile = event.target.files[0];
+    const formData = new FormData();
+      // Update the formData object
+      formData.append(
+       "file",
+        selectedFile,
+        selectedFile.name
+      );
+
+      axios.post("http://localhost:3090/api/products/uploadimage", formData,
+      {
+        headers:
+        {
+          "Content-Type" : "application/json",
+          'Authorization': `Basic ${localStorage.getItem('accessToken')}` 
+        }
+      }).then(resp => {
+        console.log(resp.data.imageId);
+        setState({...state, imageId: resp.data.imageId })
+      }).catch(err => {
+        // Handle Error Here
+        console.error(err);
+      });;
   };
 
   return !(user && user.accessLevel < 1) ? (
@@ -143,11 +183,16 @@ export default function AddProduct(props) {
                 />
               </div>
               <div className="field">
+                <label className="label">Upload files: </label>
+                <input type="file" onChange={onFileChange} />
+              </div>
+              <div className="field">
                 <label className="label">Colors and Price Options: </label>
                 <Switch onChange={handleOptionsChange} checked={isSetOptions} />
               </div>
               {isSetOptions && (
                 <SetVariants
+                  totalVariants ={saveVariants}
                 ></SetVariants>
               )}
               {/* {state.flash && (
@@ -161,6 +206,7 @@ export default function AddProduct(props) {
               </div>
               {isSetCustomizations && (
                 <SetCustomizations
+                totalCustomizations={saveCustomizations}
                 ></SetCustomizations>
               )}
               <div className="field is-clearfix">

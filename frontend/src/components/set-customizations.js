@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 
-export default function SetCustomizations() {
+export default function SetCustomizations(props) {
   const [rows, setRows] = useState([{
       letters: '',
       price: ''
   }]);
   const [renderRows,setRenderRows] = useState(getRenderRows());
+  function handleInputChange(event,i) {
+    var items = rows;
+    items[i][event.target.name] = event.target.value;
+    setRows(items);
+    props.totalCustomizations(rows);
+  }
   function getRenderRows () {
     return rows.map((o, i) =>{
       return (
@@ -13,15 +19,15 @@ export default function SetCustomizations() {
                <td>
               <input
                   type="text"
-                  value={o.letters}
-                  onChange = {event=>console.log(event)}
+                  name="letters"
+                  onChange = {event=>handleInputChange(event,i)}
               />
               </td>
               <td>
               <input
                   type="text"
-                  value={o.price}
-                  onChange = {event=>console.log(event)}
+                  name="price"
+                  onChange = {event=>handleInputChange(event,i)}
               />
               </td>
               <td>
@@ -48,7 +54,6 @@ export default function SetCustomizations() {
   }
   
   function addCustomizations() {
-    console.log('I m clicked');
     var data = {
       letters : '',
       price : ''

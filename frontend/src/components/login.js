@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
+import { useHistory} from "react-router-dom";
 import axios from 'axios';
 
 import Button from "react-bootstrap/Button";
@@ -9,7 +9,7 @@ import "./login.css";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  let history = useHistory();
   function validateForm() {
     return email.length > 0 && password.length > 0;
   }
@@ -20,12 +20,13 @@ export default function Login() {
       email: email,
       password: password
     });
-    
     axios.post("http://localhost:3090/api/session/login",data,{headers:{"Content-Type" : "application/json"}})
     .then(resp => {
       console.log(resp);
       localStorage.setItem('accessToken',resp.data.token);
       localStorage.setItem('refreshToken',resp.data.refreshToken);
+      history.push('/products');
+
     }).catch(err => {
       // Handle Error Here
       console.error(err);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-export default function SetVariants() {
+export default function SetVariants(props) {
   const [rows, setRows] = useState([{
       color: '',
       size: '',
@@ -13,22 +13,25 @@ export default function SetVariants() {
                 <td>
                 <input
                     type="text"
-                    value={o.color}
-                    onChange={event=>console.log(event)}
+                    name="color"
+                    // value={o.color}
+                    onChange={event=>handleInputChange(event,i)}
                 />
                 </td>
                  <td>
                 <input
                     type="text"
-                    value={o.size}
-                    onChange= {event=>console.log(event)}
+                    name="size"
+                  //  value={o.size}
+                    onChange= {event=>handleInputChange(event,i)}
                 />
                 </td>
                 <td>
                 <input
                     type="text"
-                    value={o.price}
-                    onChange= {event=>console.log(event)}
+                    name="price"
+                   // value={o.price}
+                    onChange= {event=>handleInputChange(event,i)}
                 />
                 </td>
                 <td>
@@ -49,6 +52,12 @@ export default function SetVariants() {
     setRows(items);
   }
 
+  function handleInputChange(event,i) {
+    var items = rows;
+    items[i][event.target.name] = event.target.value;
+    setRows(items);
+    props.totalVariants(rows);
+  }
   function handleClick(data) {
     var items = rows;
     items.push(data);
