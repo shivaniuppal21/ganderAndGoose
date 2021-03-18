@@ -4,8 +4,17 @@ const authenticate = require('./check-auth');
 
 module.exports = app;
 
-/* CREATE user and CREATE empty order */
 app.post('/register', (req, res, next)=> {
+    //  assumes the user does not exist in db already
+    models.User.create(req.body.userInfo)
+    .then( (user) => res.send(user))
+    .catch( err => {
+        res.status(500).send(err)})
+});
+
+
+/* CREATE user and CREATE empty order - registerwith cart */
+app.post('/registerwithcart', (req, res, next)=> {
     //  assumes the user does not exist in db already
     models.User.create(req.body.userInfo)
     .then( user => {
@@ -50,14 +59,32 @@ app.get('/order/:status?',authenticate.authenticateJWT, (req, res, next) => {
           where: { id: req.userid.id },
           include: [{
             model: models.Order,
-            where: ordercondition
-          }]
+            where: ordercondition,
+            include:[
+            {
+                model: models.OrderLine,
+                include: [{ model: models.Product }]
+            }
+            ,
+            {
+                model: models.Address,
+                as: 'shipping'
+            },
+            {
+                model: models.Address,
+                as: 'billing'
+            }
+        ]}
+        ]
         })
         .then( user => {
             if(!user) {
-                return res.sendStatus(401)
+                return res.status(200).send("No "+ req.params.status + " orders found")
             }
             res.send(user)
+        })
+        .catch((err)=>{
+            return res.sendStatus(500)
         })
     }
     catch(err) {

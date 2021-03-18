@@ -1,7 +1,9 @@
 const app = require('express').Router();
 const models = require('../models').models;
 const authenticate = require('./check-auth');
-const upload = require('./uploadimage');
+const upload = require("../middleware/upload");
+const uploadController = require("./uploadimage");
+
 const conn = require('../models/db');
 const fs = require("fs");
 
@@ -81,15 +83,18 @@ app.post('/create',authenticate.authenticateAdmin, (req, res, next)=> {
     res.status(400).send(err)})
 });
 
-
+app.post('/uploadimage', authenticate.authenticateAdmin,
+upload.single("file"), uploadController.uploadFiles);
 
 // upload images to product (admin level api)
-app.post('/uploadimage', authenticate.authenticateAdmin, 
-upload.uploadFile.single("file"),
+/*app.post('/uploadimage', authenticate.authenticateAdmin, 
+upload.uploadFile.any(),
 (req, res) => {
-  console.log(req.body)
+  console.log("iiiiiiiiiiiii")
+  console.log(req.file)
+  console.log(req.file.path)
+  console.log("iiiiiiiiiiiii")
   try {
-    console.log(req.file);
 
     if (req.file == undefined) {
       return res.status(400).send(`You must select a file.`);
@@ -101,7 +106,8 @@ upload.uploadFile.single("file"),
       type: req.file.mimetype,
       name: req.file.originalname,
       data: fs.readFileSync(
-          __basedir + "/public/images/product/" + req.file.originalname
+          req.file.path
+          //__basedir + "/public/images/product/" + req.file.originalname
       ),
       productId: req.params.id
     }).then((image) => {
@@ -110,12 +116,7 @@ upload.uploadFile.single("file"),
         __basedir + "/uploads/" + req.file.filename,
         image.data
       );
-      /*return models.Product.update(
-          {images : conn.Sequelize.fn('array_append', conn.Sequelize.col('images'), image.name)},
-          { where: { id: req.params.id } } )
-    .then(()=>{
-      return res.status(200).send(req.file);
-    })*/
+
     return res.status(200).send(__basedir + "/uploads/" + req.file.filename);
     });
   } catch (error) {
@@ -123,7 +124,7 @@ upload.uploadFile.single("file"),
     return res.status(500).send(`Error when trying upload images: ${error}`);
   }
 
-})
+})*/
 
 app.delete('/image/:productid/:name',authenticate.authenticateAdmin, (req, res, next)=> {
   console.log(req.params.type)
