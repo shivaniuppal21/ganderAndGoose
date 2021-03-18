@@ -1,7 +1,4 @@
 const conn = require('./db');
-const Customization = require('./Customization');
-
-const ProductImage = require('../models/ProductImage')
 
 const Product = conn.define('product', {
 title: {
@@ -42,9 +39,12 @@ images : {
   type : conn.Sequelize.ARRAY(conn.Sequelize.STRING),
   Default : 0
 },
-customization:{
+customizations:{
   type : conn.Sequelize.ARRAY(conn.Sequelize.JSON)
 },
+variants:{
+  type : conn.Sequelize.ARRAY(conn.Sequelize.JSON)
+}
 });
 
 

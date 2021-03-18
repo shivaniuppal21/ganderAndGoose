@@ -48,7 +48,7 @@ app.post('/login', (req, res, next)=> {
       const refreshToken = jwt.sign({id: user.id}, refreshTokenSecret);
       refreshTokens.push(refreshToken);
       //const token = jwt.encode({id: user.id,"iat": 1516234022,"exp":1517999022}, secret);
-      return res.send({ token , refreshToken});
+      return res.send({ token , refreshToken,userInfo:user});
     }
     return res.sendStatus(401);
   })

@@ -1,6 +1,6 @@
 const conn = require('./db');const 
 
-Customization = conn.define('customization', 
+Customizations = conn.define('customizations', 
 {
     leters: {
         type: conn.Sequelize.INTEGER,
@@ -13,4 +13,4 @@ Customization = conn.define('customization',
 })
 
 
-  module.exports = Customization ;
+  module.exports = Customizations ;
