@@ -6,13 +6,10 @@ const OrderLine = require('./OrderLine');
 const Address = require('./Address');
 let products = require('./products.json');
 const ProductImage = require('./ProductImage');
-const Category = require('./Category');
+const fs = require("fs");
 
 ProductImage.belongsTo(Product) // created product  id
 Product.hasMany(ProductImage);
-
-Product.belongsTo(Category,{}); // created category id 
-Category.hasMany(Product);
 
 
 Order.belongsTo(User); // creates userId
@@ -50,7 +47,17 @@ const seed = () => {
     { firstName: 'Harish', lastName: 'tadikona', email: 'harish11.tadikonda@gmail.com', password: 'harish29' },
     { firstName: 'Kris', lastName: 'Alnes', email: 'kris.alnes@gmail.com', password: 'kdog' },
     { firstName: 'admin', lastName: 'admin', email: 'admin@gmail.com', password: 'admin',isAdmin:true }];
-
+    const useUploadFile = {fieldname: 'file',
+                            encoding: '7bit',
+                            mimetype: 'image/png'}
+    const uploadFile = ['BirthInfo_Raisedlettering_gray7.5.png',
+                         'DarkBrown5.5ColourSample.png',
+                       'Brown9.5WVieraColourSample.png',
+                       'FullShotGray9.5Raisedlettering.png',
+                        'Gray7.5HallieColourSample.png',
+                        'MainPhoto_Gray9.5.png',
+                        'NaturalwithDarkBrownPersonalization9.5Wcoloursample'
+                      ]
 
     const category = [
       { name: 'Mauro', description: 'Restuccia12'},
@@ -61,17 +68,35 @@ const seed = () => {
 
   return sync()
     .then(() => {
-      const categoryPromise = category.map((category) => {
-        Category.create( category ) 
-      })
       const productPromises = products.map((product) => {
-        product.categoryId = 1//getRandomInt(0,2)
         Product.create( product) 
       })
+      const ProductImagePromise = new Promise ( () => {
+        for (let file of uploadFile){
+
+          ProductImage.create({
+            type: useUploadFile.mimetype,
+            name: useUploadFile.originalname,
+            data: fs.readFileSync(
+              __basedir + "/resources/static/assets/seed/" + file
+            ),
+          }).then((image) => {
+            fs.writeFileSync(
+              __basedir + "/resources/static/assets/tmp/" + image.name,
+              image.data
+            );
+            fs.writeFileSync(
+              __basedir + "/resources/static/assets/uploads/" + image.name,
+              image.data
+            );
+          });
+        }
+      })
+       
       const userPromises = users.map(user => User.create(user));
       const shippingTest = Address.create(shippingAddress, { as: 'shipping' })
       const billingTest = Address.create(billingAddress, { as: 'billing' })
-      return Promise.all([categoryPromise,productPromises, userPromises, shippingTest, billingTest])
+      return Promise.all([productPromises, ProductImagePromise, userPromises, shippingTest, billingTest])
     })
     .then(() => {
       const orderOne = Order.create({ userId: 3, status: 'pending', shippingId: 1, billingId: 2
@@ -101,8 +126,7 @@ module.exports = {
     OrderLine,
     Address,
     ProductImage,
-    Category
-  },
+    },
   sync,
   seed
 };

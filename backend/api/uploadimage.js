@@ -1,60 +1,52 @@
 const multer = require('multer')
-global.__basedir = __dirname;
 const models = require('../models').models;
 const conn = require('../models/db');
 var path = require('path');
 
 const fs = require("fs");
-var root = path.dirname(require.main.filename)
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, '')
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname)
-  }
-})
-let uploadFile = multer({ storage: storage})
+const db = require("../models");
+const Image = db.images;
+
 
 const uploadFiles = async (req, res) => {
-    try {
-      console.log(req.file);
-  
-      if (req.file == undefined) {
-        return res.status(400).send(`You must select a file.`);
-      }
-   //const filename = path.basename( req.file, extname );
+  let retImages = []
 
-    //var absolutePath = path.join(root,req.file.filename.path) 
-      models.ProductImage.create({
-        type: req.file.mimetype,
-        name: req.file.originalname,
-        data: fs.readFileSync(
-            __basedir + "/public/images/product/" + req.file.originalname
-        ),
-        productId: req.params.id
-      }).then((image) => {
-        fs.writeFileSync(
-            // Eventually frontend to decide
-          __basedir + "/uploads/" + image.name,
-          image.data
-        );
-        return models.Product.update(
-            {images : conn.Sequelize.fn('array_append', conn.Sequelize.col('images'), image.name)},
-            { where: { id: req.params.id } } )
-      .then(()=>{
-        return res.status(200).send(req.file);
-      })
-      });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).send(`Error when trying upload images: ${error}`);
+  try {
+    console.log(req.files);
+    if (req.files.length <1) {
+      return res.send(`You must select a file.`);
     }
-  };
-  
-  
-  module.exports = {
-    uploadFiles: uploadFiles,
-    uploadFile:uploadFile
-    }
+for (let file of req.files){
+ 
+
+  await models.ProductImage.create({
+    type: file.mimetype,
+    name: file.originalname,
+    data: fs.readFileSync(
+      __basedir + "/resources/static/assets/uploads/" + file.filename
+    ),
+  }).then((image) => {
+    fs.writeFileSync(
+      __basedir + "/resources/static/assets/tmp/" + image.name,
+      image.data
+    );
+    retImages.push("/resources/static/assets/uploads/" + file.filename);
+  });
+} 
+
+//console.log(retImages)
+return res.send(retImages);
+}
+catch (error) {
+  console.log(error);
+  return res.send(`Error when trying upload images: ${error}`);
+}
+
+
+};
+
+module.exports = {
+  uploadFiles,
+};
+

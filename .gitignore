@@ -44,6 +44,9 @@ jspm_packages/
 # TypeScript v1 declaration files
 typings/
 
+backend/resources/static/assets/tmp
+backend/resources/static/assets/uploads
+
 # TypeScript cache
 *.tsbuildinfo
 

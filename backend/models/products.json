@@ -1,8 +1,38 @@
 [{
-    "title": "Minimalist Folding Bag",
-    "price": 139,
-    "description": "Small minimalist folding bag with zipper accessing both sides of the inside. Slinky strap with knots. Can be worn both ways. \n Black full grain cow hide with brown suede inner interior.",
-    "productDetails": "Style # 008\nStyle type: Shoulder Bag\nSize: W: 8\" (20cm) / H: 5.5\" (14cm)\nLength of Shoulder Strap: 48\" (122cm)\nType of Closure: Zipper\nMaterial 100% Leather\nColor: Black\nInterior: Brown Suede"
+    "title": "Wooden Growth Chart",
+    "price": 100,
+    "shortdescription": "Handmade with love, our growth charts are made from natural wood, stained with a specially chosen eco-friendly stain and finished with a non-toxic varnish or oil.  Made from top grade pine, hand sanded and stained for a perfect finish.",
+    "description": "You can choose the name, font and the starting height (numbers)! The name and numbers will be made with raised wooden lettering while the lines will be engraved into the growth chart. \n Together, this creates a beautiful 3D effect.  Lettering and numbers may look metallic but is actually just natural wood (NOT GOLD), not stained or painted. \n The edges are also rounded which looks pretty but is also safer for the little ones running around.\n ORDER EXAMPLE:  Add all letters and numbers and select growth chart width. \nJaxson Herman\n9 lbs 8 oz\n22 in\n11/20/17\nTotal Letters/Numbers = 29\nGrowth Chart Size : 7.5 Width\nStain Colour: Brown\nWhen placing the order (using the example above), select 'Brown 7.5 W' from the Colour/Size drop down list, then choose '21-30Letters/Numbers' from the Raised Letters/Numbers drop down list.\n*Note: example of standard birth information placement in photo 6.\nCOLORS - All FOUR stain colors can be seen in photos 7 - 10.\nThe standard finish is the non-toxic varnish which last longer and better protects against aging of the wood.  A request for an organic walnut oil finish (A traditional finish popular in Europe for furniture and household items) can be made in notes to seller.  Both options are the same cost.\nCOMES READY TO HANG - parents can hang our growth charts because it has a nail hole in the back ready for hanging.  They can add double sided velcro tape to secure the bottom from swinging or use double sided velcro tape to hang the whole growth chart if they don't wish to drill into the wall.\nSTANDARD MEASUREMENTS - starts from 6 inches (above most baseboards) and measures to 6 feet 6 inches.\nComes in three widths 5.5 inches, 7.5 inches and 9.5 inches.",
+    "category":"Growth Chart",
+    "images":[
+      "/resources/static/assets/uploads/BirthInfo_Raisedlettering_gray7.5.png",
+      "/resources/static/assets/uploads/Brown9.5WVieraColourSample.png",
+      "/resources/static/assets/uploads/DarkBrown5.5ColourSample.png",
+      "/resources/static/assets/uploads/FullShotGray9.5Raisedlettering.png",
+      "/resources/static/assets/uploads/Gray7.5HallieColourSample.png",
+      "/resources/static/assets/uploads/MainPhoto_Gray9.5.png",
+      "/resources/static/assets/uploads/NaturalwithDarkBrownPersonalization9.5Wcoloursample.png"
+    ],
+    "customizations": [
+      {"letters":"1-10","price":"20"},
+      {"letters":"11-20","price":"40"},
+      {"letters":"21-30","price":"60"},
+      {"letters":"31-40","price":"80"}
+    ],
+    "variants":[
+      {"color":"Natural Wood","size":"7.5","price":"20"},
+      {"color":"Brown","size":"7.5","price":"20"},
+      {"color":"Dark Brown","size":"7.5","price":"20"},
+      {"color":"Gray","size":"7.5","price":"20"},
+      {"color":"Brown","size":"9.5","price":"40"},
+      {"color":"Natural Wood","size":"9.5","price":"40"},
+      {"color":"Dark Brown","size":"9.5","price":"40"},
+      {"color":"Gray","size":"9.5","price":"40"},
+      {"color":"Brown","size":"5.5","price":"0"},
+      {"color":"Natural Wood","size":"5.5","price":"0"},
+      {"color":"Dark Brown","size":"5.5","price":"0"},
+      {"color":"Gray","size":"5.5","price":"0"}
+    ]
   },
   {
     "title": "Minimalist Leather Backpack",
@@ -14,7 +44,13 @@
     "title": "Geometry Shoulder Bag",
     "price": 139,
     "description": "Don says this is the geometric bag that all the hippies used to wear. Everyone had this in the 70s, but no one had the zipper figured out. Two snap button adjusts the size. Strap also adjustable.\nBlack cow hide with brown suede interior.",
-    "productDetails": "Style # 007\nStyle type: Shoulder Bag / Hand Bag\nSize:W:11.8\"(30cm) / H:11.8\"(30cm)\nLength of Shoulder Strap:43\" max (111cm)\nBody Weight:\nType of Closure: Zipper / 2 snap buttons\nMaterial 100% Leather\nColor Black\nInterior Brown"
+    "productDetails": "Style # 007\nStyle type: Shoulder Bag / Hand Bag\nSize:W:11.8\"(30cm) / H:11.8\"(30cm)\nLength of Shoulder Strap:43\" max (111cm)\nBody Weight:\nType of Closure: Zipper / 2 snap buttons\nMaterial 100% Leather\nColor Black\nInterior Brown",
+    "customization":[
+      {
+        "color":"sd",
+        "price":4
+      }
+    ]
   },
   {
     "title": "Minimalist Envelope Handbag",

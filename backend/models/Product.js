@@ -1,5 +1,4 @@
 const conn = require('./db');
-const ProductImage = require('../models/ProductImage')
 
 const Product = conn.define('product', {
 title: {
@@ -9,7 +8,7 @@ title: {
 description: {
   type: conn.Sequelize.TEXT,
 },
-productDetails: {
+shortdescription: {
   type: conn.Sequelize.TEXT,
 },
 price: {
@@ -39,6 +38,15 @@ rating : {
 images : {
   type : conn.Sequelize.ARRAY(conn.Sequelize.STRING),
   Default : 0
+},
+customizations:{
+  type : conn.Sequelize.ARRAY(conn.Sequelize.JSON)
+},
+variants:{
+  type : conn.Sequelize.ARRAY(conn.Sequelize.JSON)
+},
+category:{
+    type: conn.Sequelize.STRING
 },
 });
 

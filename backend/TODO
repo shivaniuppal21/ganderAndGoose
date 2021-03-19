@@ -24,10 +24,12 @@ Shivani Tasks
 File Structure : when sent from frontend/API
 
 { fieldname: 'file',
-  originalname: '330px-Hw-newton.png',
-  encoding: '7bit',
-  mimetype: 'image/png',
-  destination: '',
-  filename: '330px-Hw-newton.png',
-  path: '330px-Hw-newton.png',
-  size: 63548 }
+    originalname: '330px-Hw-newton.png',
+    encoding: '7bit',
+    mimetype: 'image/png',
+    destination:
+     '/home/uday/ganderAndGoose/backend/resources/static/assets/uploads/',
+    filename: '1616115941627-330px-Hw-newton.png',
+    path:
+     '/home/uday/ganderAndGoose/backend/resources/static/assets/uploads/1616115941627-330px-Hw-newton.png',
+    size: 63548 },

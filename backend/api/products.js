@@ -1,8 +1,12 @@
 const app = require('express').Router();
 const models = require('../models').models;
 const authenticate = require('./check-auth');
-const upload = require('./uploadimage');
+const upload = require("../middleware/upload");
+const uploadController = require("./uploadimage");
+
 const conn = require('../models/db');
+const fs = require("fs");
+
 
 
 module.exports = app;
@@ -34,15 +38,6 @@ app.delete('/:id', authenticate.authenticateAdmin,(req, res, next)=> {
     .then( () => res.sendStatus(204))
     .catch(next);
 });
-
-// admin level api (later add autherization)
-app.post('/addcategory', authenticate.authenticateAdmin, (req, res, next)=> {
-  //  assumes the category does not exist in db already
-  models.Category.create(req.body)
-  .then(category =>{
-    res.send(category)
-  })
-})
 
 // admin level api
 //update product
@@ -79,26 +74,23 @@ app.post('/create',authenticate.authenticateAdmin, (req, res, next)=> {
     res.status(400).send(err)})
 });
 
+app.post('/uploadimage', authenticate.authenticateAdmin,
+upload.array("file",10), uploadController.uploadFiles);
 
-
-// upload images to product (admin level api)
-app.post('/uploadimage/:id', authenticate.authenticateAdmin, 
-upload.uploadFile.single("file"), upload.uploadFiles,
-(req, res) => {
-  console.log(res.status)
-
-})
 
 app.delete('/image/:productid/:name',authenticate.authenticateAdmin, (req, res, next)=> {
   console.log(req.params.type)
 models.ProductImage.destroy({ where: { name: req.params.name}})
 .then( () => {
-  return models.Product.update(
+  /*return models.Product.update(
     {images : conn.Sequelize.fn('array_remove', conn.Sequelize.col('images'), req.params.name)},
     { where: { id: req.params.productid } } )
     .then(() => {
       res.sendStatus(204)
-    })
+    })*/
+    // TODO
+    // Delete from the defined folder as well
+    res.sendStatus(204)
 })
 .catch(next);
 })
