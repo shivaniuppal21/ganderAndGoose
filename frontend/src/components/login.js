@@ -6,7 +6,7 @@ import axios from 'axios';
 import Button from "react-bootstrap/Button";
 import "./login.css";
 
-export default function Login() {
+export default function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   let history = useHistory();
@@ -20,11 +20,24 @@ export default function Login() {
       email: email,
       password: password
     });
+  //   props.setUser({
+  //     "id": 4,
+  //     "firstName": "admin",
+  //     "lastName": "admin",
+  //     "email": "admin@gmail.com",
+  //     "password": "admin",
+  //     "mobile": null,
+  //     "zipCode": null,
+  //     "country": null,
+  //     "isAdmin": true,
+  //     "createdAt": "2021-03-18T17:51:55.410Z",
+  //     "updatedAt": "2021-03-18T17:51:55.410Z"
+  // });
     axios.post("http://localhost:3090/api/session/login",data,{headers:{"Content-Type" : "application/json"}})
     .then(resp => {
-      console.log(resp);
       localStorage.setItem('accessToken',resp.data.token);
       localStorage.setItem('refreshToken',resp.data.refreshToken);
+      props.setUser(resp.data.userInfo);
       history.push('/products');
 
     }).catch(err => {

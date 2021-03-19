@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component,useState } from "react";
 import { Switch, Route, Link, BrowserRouter as Router } from "react-router-dom";
 import AddProduct from './components/add-product';
 import Cart from './components/cart';
@@ -6,11 +6,11 @@ import Login from './components/login';
 import ProductsList from './components/products-list';
 import SignUp from "./components/signup";
 import ProductDetails from "./components/product-details";
-
 import Context from "./Context";
 import "bulma/css/bulma.css";
 
 export default class App extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -20,7 +20,36 @@ export default class App extends Component {
     };
     this.routerRef = React.createRef();
   }
-
+  logout() {
+    localStorage.clear();
+  }
+  addToCart = cartItem => {
+    let cart = this.state.cart;
+    if (cart[cartItem.id]) {
+      cart[cartItem.id].amount += cartItem.amount;
+    } else {
+      cart[cartItem.id] = cartItem;
+    }
+    if (cart[cartItem.id].amount > cart[cartItem.id].product.stock) {
+      cart[cartItem.id].amount = cart[cartItem.id].product.stock;
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+    this.setState({ cart });
+  };
+  
+  removeFromCart = cartItemId => {
+    let cart = this.state.cart;
+    delete cart[cartItemId];
+    localStorage.setItem("cart", JSON.stringify(cart));
+    this.setState({ cart });
+  };
+  
+  clearCart = () => {
+    let cart = {};
+    localStorage.removeItem("cart");
+    this.setState({ cart });
+  };
+  
   render() {
     return (
       <Context.Provider
@@ -65,11 +94,11 @@ export default class App extends Component {
                 <Link to="/products" className="navbar-item">
                   Products
                 </Link>
-                {/* {this.state.user && this.state.user.accessLevel < 1 && ( */}
+                 {this.state.user && this.state.user.isAdmin && (
                   <Link to="/add-product" className="navbar-item">
                     Add Product
                   </Link>
-                {/* )} */}
+                 )}
                 <Link to="/cart" className="navbar-item">
                   Cart
                   <span
@@ -89,20 +118,23 @@ export default class App extends Component {
                   </Link>
                   </>
                   
-                ) : (
-                  <Link to="/" onClick={this.logout} className="navbar-item">
+                ) : (    
+                  <Link to="/" onClick={event=>{localStorage.clear(); this.setState({user:null})}} className="navbar-item">
                     Logout
                   </Link>
                 )}
               </div>
+              {this.state.user && (
+              <span style={{ marginRight: "5px" }}>Hi,{this.state.user.firstName}</span>
+            )}
             </nav>
             <Switch>
-              <Route exact path="/" component={ProductsList} />
-              <Route exact path="/login" component={Login} />
+              <Route exact path="/" render={(props) => <ProductsList {...props} addToCart={this.addToCart} setProducts={products=>this.setState({ products: products })}/>} />
+              <Route exact path="/login" render={(props) => <Login {...props} setUser={user=>this.setState({ user: user })}/>} />
               <Route exact path="/register" component={SignUp} />
-              <Route exact path="/cart" component={Cart} />
+              <Route exact path="/cart" render={(props) => <Cart {...props} cart={this.state.cart} removeFromCart={this.removeFromCart} clearCart={this.clearCart}/>}/>
               <Route exact path="/add-product" component={AddProduct} />
-              <Route exact path="/products" component={ProductsList} />
+              <Route exact path="/products" render={(props) => <ProductsList {...props} addToCart={this.addToCart} setProducts={products=>this.setState({ products: products })}/>} />
               <Route exact path="/product-details" component={ProductDetails} />
             </Switch>
           </div>

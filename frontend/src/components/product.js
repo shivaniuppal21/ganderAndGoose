@@ -3,19 +3,29 @@ import { Card,Button } from 'react-bootstrap';
 
 function Product(props) {
   let {
-    product
+    product,addToCart
   } = props;
 
   return (
       <div>
         <Card style={{ minWidth: '18rem', maxWidth: '18rem' }}>
-        <Card.Img variant="top" src={product.picture}/>
+        <Card.Img variant="top" src={product.images[0]}/>
         <Card.Body>
-            <Card.Title>{product.name}</Card.Title>
+            <Card.Title>{product.title}</Card.Title>
             <Card.Text>
             ${product.price}
             </Card.Text>
-            <Button variant="primary">Add to Cart</Button>
+            <Card.Text>
+            Rating: {product.rating}
+            </Card.Text>
+            <Button
+             onClick={() =>
+              addToCart({
+                id: product.title,
+                product,
+                amount: 1
+              })}
+            variant="primary">Add to Cart</Button>
         </Card.Body>
         </Card>
     </div>

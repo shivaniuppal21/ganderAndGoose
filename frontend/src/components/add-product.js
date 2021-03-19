@@ -11,19 +11,18 @@ const initState = {
   stock: "",
   shortDesc: "",
   description: "",
-  imageId: null,
+  images: [],
   variants:[],
   customizations:[]
 };
 
 export default function AddProduct(props) {
   const [state,setState] = useState(initState);
-  const user = {accessLevel : 0};
   const [isSetOptions, setOptions] = useState(false);
   const [isSetCustomizations, setCustomizations] = useState(false);
   function save(e) {
     e.preventDefault();
-    const { name, price, stock, shortDesc, description,imageId,variants,customizations } = state;
+    const { name, price, stock, shortDesc, description,images,variants,customizations } = state;
     if (name && price) {
       axios.post(
         'http://localhost:3090/api/products/create',
@@ -33,7 +32,7 @@ export default function AddProduct(props) {
           stock:stock,
           description: shortDesc,
           productDetails:description,
-          imageId:imageId,
+          images:images,
           variants:variants,
           customizations:customizations
         },
@@ -46,6 +45,7 @@ export default function AddProduct(props) {
         }
       ).then(resp => {
         console.log(resp);
+        props.history.push('/products');
       }).catch(err => {
         // Handle Error Here
         console.error(err);
@@ -94,8 +94,7 @@ export default function AddProduct(props) {
       // Update the formData object
       formData.append(
        "file",
-        selectedFile,
-        selectedFile.name
+        selectedFile
       );
 
       axios.post("http://localhost:3090/api/products/uploadimage", formData,
@@ -106,17 +105,17 @@ export default function AddProduct(props) {
           'Authorization': `Basic ${localStorage.getItem('accessToken')}` 
         }
       }).then(resp => {
-        console.log(resp.data.imageId);
-        setState({...state, imageId: resp.data.imageId })
+        console.log(resp);
+        let img = state.images;
+        img.push(resp)
+        setState({...state, images: img})
       }).catch(err => {
         // Handle Error Here
         console.error(err);
       });;
   };
 
-  return !(user && user.accessLevel < 1) ? (
-      <Redirect to="/" />
-    ) : (
+  return (
       <>
         <div className="hero is-primary ">
           <div className="hero-body container">
