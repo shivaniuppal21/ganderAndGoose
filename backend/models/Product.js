@@ -8,7 +8,7 @@ title: {
 description: {
   type: conn.Sequelize.TEXT,
 },
-productDetails: {
+shortdescription: {
   type: conn.Sequelize.TEXT,
 },
 price: {
@@ -44,7 +44,10 @@ customizations:{
 },
 variants:{
   type : conn.Sequelize.ARRAY(conn.Sequelize.JSON)
-}
+},
+category:{
+    type: conn.Sequelize.STRING
+},
 });
 
 

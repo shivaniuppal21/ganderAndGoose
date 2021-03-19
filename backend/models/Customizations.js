@@ -2,7 +2,7 @@ const conn = require('./db');const
 
 Customizations = conn.define('customizations', 
 {
-    leters: {
+    letters: {
         type: conn.Sequelize.INTEGER,
         //allowNull: false,
     },

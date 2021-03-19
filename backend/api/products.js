@@ -39,15 +39,6 @@ app.delete('/:id', authenticate.authenticateAdmin,(req, res, next)=> {
     .catch(next);
 });
 
-// admin level api (later add autherization)
-app.post('/addcategory', authenticate.authenticateAdmin, (req, res, next)=> {
-  //  assumes the category does not exist in db already
-  models.Category.create(req.body)
-  .then(category =>{
-    res.send(category)
-  })
-})
-
 // admin level api
 //update product
 app.post('/update/:id',authenticate.authenticateAdmin, (req, res, next)=> {
@@ -84,47 +75,8 @@ app.post('/create',authenticate.authenticateAdmin, (req, res, next)=> {
 });
 
 app.post('/uploadimage', authenticate.authenticateAdmin,
-upload.single("file"), uploadController.uploadFiles);
+upload.array("file",10), uploadController.uploadFiles);
 
-// upload images to product (admin level api)
-/*app.post('/uploadimage', authenticate.authenticateAdmin, 
-upload.uploadFile.any(),
-(req, res) => {
-  console.log("iiiiiiiiiiiii")
-  console.log(req.file)
-  console.log(req.file.path)
-  console.log("iiiiiiiiiiiii")
-  try {
-
-    if (req.file == undefined) {
-      return res.status(400).send(`You must select a file.`);
-    }
- //const filename = path.basename( req.file, extname );
-
-  //var absolutePath = path.join(root,req.file.filename.path) 
-    models.ProductImage.create({
-      type: req.file.mimetype,
-      name: req.file.originalname,
-      data: fs.readFileSync(
-          req.file.path
-          //__basedir + "/public/images/product/" + req.file.originalname
-      ),
-      productId: req.params.id
-    }).then((image) => {
-      fs.writeFileSync(
-          // Eventually frontend to decide
-        __basedir + "/uploads/" + req.file.filename,
-        image.data
-      );
-
-    return res.status(200).send(__basedir + "/uploads/" + req.file.filename);
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send(`Error when trying upload images: ${error}`);
-  }
-
-})*/
 
 app.delete('/image/:productid/:name',authenticate.authenticateAdmin, (req, res, next)=> {
   console.log(req.params.type)
