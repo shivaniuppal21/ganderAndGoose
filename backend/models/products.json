@@ -6,7 +6,12 @@
     "category":"Growth Chart",
     "images":[
       "/resources/static/assets/uploads/BirthInfo_Raisedlettering_gray7.5.png",
-      "/resources/static/assets/uploads/Brown9.5WVieraColourSample.png"
+      "/resources/static/assets/uploads/Brown9.5WVieraColourSample.png",
+      "/resources/static/assets/uploads/DarkBrown5.5ColourSample.png",
+      "/resources/static/assets/uploads/FullShotGray9.5Raisedlettering.png",
+      "/resources/static/assets/uploads/Gray7.5HallieColourSample.png",
+      "/resources/static/assets/uploads/MainPhoto_Gray9.5.png",
+      "/resources/static/assets/uploads/NaturalwithDarkBrownPersonalization9.5Wcoloursample.png"
     ],
     "customizations": [
       {"letters":"1-10","price":"20"},
@@ -18,9 +23,15 @@
       {"color":"Natural Wood","size":"7.5","price":"20"},
       {"color":"Brown","size":"7.5","price":"20"},
       {"color":"Dark Brown","size":"7.5","price":"20"},
-      {"color":"Dark Brown","size":"7.5","price":"20"},
+      {"color":"Gray","size":"7.5","price":"20"},
       {"color":"Brown","size":"9.5","price":"40"},
-      {"color":"","size":"5.5","price":"0"}
+      {"color":"Natural Wood","size":"9.5","price":"40"},
+      {"color":"Dark Brown","size":"9.5","price":"40"},
+      {"color":"Gray","size":"9.5","price":"40"},
+      {"color":"Brown","size":"5.5","price":"0"},
+      {"color":"Natural Wood","size":"5.5","price":"0"},
+      {"color":"Dark Brown","size":"5.5","price":"0"},
+      {"color":"Gray","size":"5.5","price":"0"}
     ]
   },
   {

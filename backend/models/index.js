@@ -47,23 +47,17 @@ const seed = () => {
     { firstName: 'Harish', lastName: 'tadikona', email: 'harish11.tadikonda@gmail.com', password: 'harish29' },
     { firstName: 'Kris', lastName: 'Alnes', email: 'kris.alnes@gmail.com', password: 'kdog' },
     { firstName: 'admin', lastName: 'admin', email: 'admin@gmail.com', password: 'admin',isAdmin:true }];
-    const uploadFile = [{ fieldname: 'file',
-                        originalname: 'BirthInfo_Raisedlettering_gray7.5.png',
-                        encoding: '7bit',
-                        mimetype: 'image/png',
-                        filename: 'BirthInfo_Raisedlettering_gray7.5.png'},
-                        { fieldname: 'file',
-                        originalname: 'DarkBrown5.5ColourSample.png',
-                        encoding: '7bit',
-                        mimetype: 'image/png',
-                        filename: 'Brown9.5WVieraColourSample.png'},
-                        { fieldname: 'file',
-                        originalname: 'FullShotGray9.5Raisedlettering.png',
-                        encoding: '7bit',
-                        mimetype: 'image/png',
-                        filename: 'Gray7.5HallieColourSample.png'}
+    const useUploadFile = {fieldname: 'file',
+                            encoding: '7bit',
+                            mimetype: 'image/png'}
+    const uploadFile = ['BirthInfo_Raisedlettering_gray7.5.png',
+                         'DarkBrown5.5ColourSample.png',
+                       'Brown9.5WVieraColourSample.png',
+                       'FullShotGray9.5Raisedlettering.png',
+                        'Gray7.5HallieColourSample.png',
+                        'MainPhoto_Gray9.5.png',
+                        'NaturalwithDarkBrownPersonalization9.5Wcoloursample'
                       ]
-
 
     const category = [
       { name: 'Mauro', description: 'Restuccia12'},
@@ -81,10 +75,10 @@ const seed = () => {
         for (let file of uploadFile){
 
           ProductImage.create({
-            type: file.mimetype,
-            name: file.originalname,
+            type: useUploadFile.mimetype,
+            name: useUploadFile.originalname,
             data: fs.readFileSync(
-              __basedir + "/resources/static/assets/seed/" + file.filename
+              __basedir + "/resources/static/assets/seed/" + file
             ),
           }).then((image) => {
             fs.writeFileSync(
