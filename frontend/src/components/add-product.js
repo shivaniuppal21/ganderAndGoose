@@ -107,7 +107,7 @@ export default function AddProduct(props) {
       }).then(resp => {
         console.log(resp);
         let img = state.images;
-        img.push('http://localhost:3090'+resp);
+        img.push(resp.data[0]);
         setState({...state, images: img})
       }).catch(err => {
         // Handle Error Here

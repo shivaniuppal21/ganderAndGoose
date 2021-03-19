@@ -9,7 +9,7 @@ export default function CartItem(props) {
             <div className="media-left">
               <figure className="image is-64x64">
                 <img
-                  src={product.images[0]}
+                  src={product.images && product.images[0]}
                   alt={product.shortDesc}
                 />
               </figure>

@@ -56,7 +56,7 @@ const seed = () => {
                        'FullShotGray9.5Raisedlettering.png',
                         'Gray7.5HallieColourSample.png',
                         'MainPhoto_Gray9.5.png',
-                        'NaturalwithDarkBrownPersonalization9.5Wcoloursample'
+                        'NaturalwithDarkBrownPersonalization9.5Wcoloursample.png'
                       ]
 
     const category = [
@@ -73,10 +73,10 @@ const seed = () => {
       })
       const ProductImagePromise = new Promise ( () => {
         for (let file of uploadFile){
-
+          console.log(file)
           ProductImage.create({
             type: useUploadFile.mimetype,
-            name: useUploadFile.originalname,
+            name: file,
             data: fs.readFileSync(
               __basedir + "/resources/static/assets/seed/" + file
             ),
