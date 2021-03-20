@@ -50,13 +50,20 @@ const seed = () => {
     const useUploadFile = {fieldname: 'file',
                             encoding: '7bit',
                             mimetype: 'image/png'}
-    const uploadFile = ['BirthInfo_Raisedlettering_gray7.5.png',
+    const uploadFile = ['MainPhoto_Gray9.5.png',
+                        'BirthInfo_Raisedlettering_gray7.5.png',
                          'DarkBrown5.5ColourSample.png',
                        'Brown9.5WVieraColourSample.png',
                        'FullShotGray9.5Raisedlettering.png',
                         'Gray7.5HallieColourSample.png',
-                        'MainPhoto_Gray9.5.png',
-                        'NaturalwithDarkBrownPersonalization9.5Wcoloursample.png'
+                        'NaturalwithDarkBrownPersonalization9.5Wcoloursample.png',
+                        'GanderandgooseCloudCoatRack.jpg',
+                        'Hand-Crafted Wooden Name Sign.jpg',
+                        'PersonalisedCoatHook.jpg',
+                        'personalisednameplanque.jpg',
+                        'personalisednameplanquecritterstheme.jpg',
+                        'RainbowCoatHookWithClouds.jpg',
+                        'PersonalizedWoodenOrnament.jpg'
                       ]
 
     const category = [
