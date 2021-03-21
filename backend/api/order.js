@@ -4,7 +4,6 @@ const authenticate = require('./check-auth');
 
 module.exports = app;
 
-
 app.get('/:orderId',authenticate.authenticateJWT, (req, res, next) => {
     console.log(req.userid)
     models.Order.findAll(
