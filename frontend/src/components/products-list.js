@@ -37,8 +37,7 @@ let products = [
     }
 ];
 export default function ProductsList(props) {
-    
-    useEffect(()=>{
+        useEffect(()=>{
         //props.setProducts(products);
         axios.get("http://localhost:3090/api/products",null,{headers:{"Content-Type" : "application/json"}})
         .then(resp => {
@@ -60,6 +59,7 @@ export default function ProductsList(props) {
                             key={index}
                             product={product}
                             addToCart={props.addToCart}
+                            openProductDetails={props.openProductDetails}
                          />)
                     })
                 }

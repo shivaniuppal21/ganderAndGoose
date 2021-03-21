@@ -10,7 +10,7 @@ export default function CartItem(props) {
               <figure className="image is-64x64">
                 <img
                   src={product.images && 'http://localhost:3090'+product.images[0]}
-                  alt={product.shortDesc}
+                  alt={product.title}
                 />
               </figure>
             </div>

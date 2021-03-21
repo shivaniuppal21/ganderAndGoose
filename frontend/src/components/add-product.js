@@ -4,6 +4,7 @@ import axios from 'axios';
 import Switch from "react-switch";
 import SetVariants from './set-variants';
 import SetCustomizations from './set-customizations';
+import ReactSelect from 'react-select';
 
 const initState = {
   name: "",
@@ -13,16 +14,22 @@ const initState = {
   description: "",
   images: [],
   variants:[],
-  customizations:[]
+  customizations:[],
+  category:""
 };
 
 export default function AddProduct(props) {
   const [state,setState] = useState(initState);
   const [isSetOptions, setOptions] = useState(false);
   const [isSetCustomizations, setCustomizations] = useState(false);
+  const categoryList = [
+    { value: "Growth Cart", label: "Growth Cart" },
+    { value: "Coat Hook", label: "Coat Hook" },
+    { value: "Name Plate", label: "Name Plate" }
+  ];
   function save(e) {
     e.preventDefault();
-    const { name, price, stock, shortDesc, description,images,variants,customizations } = state;
+    const { name, price, stock, shortDesc, description,images,variants,customizations ,category} = state;
     if (name && price) {
       axios.post(
         'http://localhost:3090/api/products/create',
@@ -34,7 +41,8 @@ export default function AddProduct(props) {
           productDetails:description,
           images:images,
           variants:variants,
-          customizations:customizations
+          customizations:customizations,
+          category:category
         },
         {
           headers:
@@ -179,6 +187,22 @@ export default function AddProduct(props) {
                   name="description"
                   value={state.description}
                   onChange={handleChange}
+                />
+              </div>
+              <div className="field">
+              <label className="label">Category: </label>
+                <ReactSelect
+                  name="country"
+                  options={categoryList}
+                  value={categoryList.find(x => x.value === state.category)}
+                  onChange={e =>
+                    handleChange({
+                      target: {
+                        name: "category",
+                        value: e.value
+                      }
+                    })
+                  }
                 />
               </div>
               <div className="field">
