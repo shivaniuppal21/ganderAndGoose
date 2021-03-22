@@ -10,8 +10,8 @@ function Product(props) {
   return (
       <div onClick={()=>{history.push({pathname:'/product-details',product:product})}}>
         <Card style={{ minWidth: '18rem', maxWidth: '18rem' ,marginTop:'50px'}}>
-        <Card.Img variant="top" src={product.images && 'http://localhost:3090'+product.images[0]}/>
-        <Card.Body>
+        <Card.Img variant="top" style={{alignItems:'center' ,width:'100px' , height:'100px'}} src={product.images && 'http://localhost:3090'+product.images[0]}/>
+        <Card.Body style={{ minHeight:'210px'}}>
             <Card.Title>{product.title}</Card.Title>
             <Card.Text>
             ${product.price}
