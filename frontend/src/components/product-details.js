@@ -61,20 +61,17 @@ export default function ProductDetails(props) {
           <span>${product.price}</span>
         </div>
         <div className="row" style={{ justifyContent:'left'}}>
-          <FacebookIcon size={32} round={true}><FacebookShareButton></FacebookShareButton></FacebookIcon>
-          <EmailIcon size={32} round={true}>
-            <EmailShareButton 
-              subject="`Check out this amazing product only on Gander and Goose - ${product.title}`"
-              body="Visit http://ganderAndgoose.com now to find amazing products.The one I shortlisted especially for you is under the name of `${product.title}` "
-              url="http://ganderAndGoose.com"
-              ></EmailShareButton>
-          </EmailIcon>    
-          <PinterestIcon size={32} round={true}>
-          <PinterestShareButton></PinterestShareButton>  
-          </PinterestIcon> 
-          <TwitterIcon size={32} round={true}>
-            <TwitterShareButton></TwitterShareButton>
-          </TwitterIcon>    
+          <FacebookShareButton><FacebookIcon size={32} round={true}></FacebookIcon></FacebookShareButton> 
+          <EmailShareButton 
+              subject="Check out this amazing product only on Gander and Goose"
+              body="'Visit http://ganderAndgoose.com now to find amazing products.The one I shortlisted especially for you is under the name of ' + product.title"
+              url="http://ganderAndGoose.com"> 
+              <EmailIcon size={32} round={true}></EmailIcon> 
+          </EmailShareButton>  
+          <PinterestShareButton><PinterestIcon size={32} round={true}></PinterestIcon> 
+          </PinterestShareButton>  
+          <TwitterShareButton><TwitterIcon size={32} round={true}></TwitterIcon></TwitterShareButton>
+         
         </div>
         {product.variants && product.variants.length > 0 && (
           <div className="row">
