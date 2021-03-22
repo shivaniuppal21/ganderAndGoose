@@ -132,6 +132,7 @@ export default function ProductsList(props) {
                             product={product}
                             addToCart={props.addToCart}
                             openProductDetails={props.openProductDetails}
+                            isAdmin={props.isAdmin}
                          />)
                     })
                 }

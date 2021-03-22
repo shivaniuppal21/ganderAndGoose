@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 
 export default function SetCustomizations(props) {
-  const [rows, setRows] = useState([{
-      letters: '',
-      price: ''
-  }]);
+  let initState = [{
+    letters: '',
+    price: ''
+  }];
+  if(props.customizations && props.customizations.length > 0) {
+    initState = props.customizations
+  }
+
+  const [rows, setRows] = useState(initState);
   const [renderRows,setRenderRows] = useState(getRenderRows());
   function handleInputChange(event,i) {
     var items = rows;
@@ -20,6 +25,7 @@ export default function SetCustomizations(props) {
               <input
                   type="text"
                   name="letters"
+                  value={o.letters}
                   onChange = {event=>handleInputChange(event,i)}
               />
               </td>
@@ -27,6 +33,7 @@ export default function SetCustomizations(props) {
               <input
                   type="text"
                   name="price"
+                  value={o.price}
                   onChange = {event=>handleInputChange(event,i)}
               />
               </td>

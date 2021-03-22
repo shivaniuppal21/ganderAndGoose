@@ -136,13 +136,13 @@ export default class App extends Component {
             )}
             </nav>
             <Switch>
-              <Route exact path="/" render={(props) => <ProductsList {...props}openProductDetails={this.openProductDetails} addToCart={this.addToCart} setProducts={products=>this.setState({ products: products })}/>} />
+              <Route exact path="/" render={(props) => <ProductsList {...props} isAdmin= {this.state.user && this.state.user.isAdmin} openProductDetails={this.openProductDetails} addToCart={this.addToCart} setProducts={products=>this.setState({ products: products })}/>} />
               <Route exact path="/login" render={(props) => <Login {...props} setUser={user=>this.setState({ user: user })}/>} />
               <Route exact path="/register" component={SignUp} />
               <Route exact path="/contactUs" component={ContactUs} />
               <Route exact path="/cart" render={(props) => <Cart {...props} cart={this.state.cart} removeFromCart={this.removeFromCart} clearCart={this.clearCart}/>}/>
               <Route exact path="/add-product" component={AddProduct} />
-              <Route exact path="/products" render={(props) => <ProductsList {...props} openProductDetails={this.openProductDetails} addToCart={this.addToCart} setProducts={products=>this.setState({ products: products })}/>} />
+              <Route exact path="/products" render={(props) => <ProductsList {...props} isAdmin= {this.state.user && this.state.user.isAdmin} openProductDetails={this.openProductDetails} addToCart={this.addToCart} setProducts={products=>this.setState({ products: products })}/>} />
               <Route exact path="/product-details" render={(props) => <ProductDetails {...props} addToCart={this.addToCart} />}/>
             </Switch>
           </div>
