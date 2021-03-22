@@ -34,7 +34,7 @@ function Product(props) {
              }
             }
             variant="primary">Add to Cart</Button>
-            <button 
+            {props.isAdmin && (<button 
              style={{border: 'none',
               backgroundColor: 'white',
               paddingLeft: '108px'
@@ -44,7 +44,7 @@ function Product(props) {
               history.push({pathname:'/add-product',product:product});
              }
              }
-            ><EditIcon/></button>
+            ><EditIcon/></button>)}
         </Card.Body>
         </Card>
     </div>
