@@ -4,6 +4,7 @@ const sessionRoutes = require('./api/session');
 const productRoutes = require('./api/products');
 const orderRoutes = require('./api/order');
 const userRoutes = require('./api/user');
+const emailRoutes = require('./api/email')
 const db = require('./models');
 var cors = require("cors");
 global.__basedir = __dirname;
@@ -25,6 +26,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/session', sessionRoutes);
 app.use('/api/order', orderRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/email', emailRoutes);
 
 
 const port = process.env.PORT || 3090;
