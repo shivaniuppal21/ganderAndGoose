@@ -10,7 +10,7 @@ const initState = {
   name: "",
   price: "",
   stock: "",
-  shortDesc: "",
+  shortDescription: "",
   description: "",
   images: [],
   variants:[],
@@ -29,7 +29,7 @@ export default function AddProduct(props) {
   ];
   function save(e) {
     e.preventDefault();
-    const { name, price, stock, shortDesc, description,images,variants,customizations ,category} = state;
+    const { name, price, stock, shortDescription, description,images,variants,customizations ,category} = state;
     if (name && price) {
       axios.post(
         'http://localhost:3090/api/products/create',
@@ -37,7 +37,7 @@ export default function AddProduct(props) {
           title: name, 
           price:price, 
           stock:stock,
-          description: shortDesc,
+          description: shortDescription,
           productDetails:description,
           images:images,
           variants:variants,
@@ -63,7 +63,7 @@ export default function AddProduct(props) {
       //   {
       //     name,
       //     price,
-      //     description:shortDesc,
+      //     description:shortDescription,
       //     productDetails:description,
       //     stock: stock || 0
       //   },
@@ -172,8 +172,8 @@ export default function AddProduct(props) {
                 <input
                   className="input"
                   type="text"
-                  name="shortDesc"
-                  value={state.shortDesc}
+                  name="shortDescription"
+                  value={state.shortDescription}
                   onChange={handleChange}
                 />
               </div>

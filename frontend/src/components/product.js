@@ -17,7 +17,10 @@ function Product(props) {
             ${product.price}
             </Card.Text>
             <Card.Text>
-            Rating: {product.rating}
+            Rating: {product.rating || 'No reviews'}
+            </Card.Text>
+            <Card.Text>
+            Category: {product.category || 'Non-categorized'}
             </Card.Text>
             <Button
              onClick={() =>
