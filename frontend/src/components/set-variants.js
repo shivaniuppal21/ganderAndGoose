@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 export default function SetVariants(props) {
-  const [rows, setRows] = useState([{
-      color: '',
-      size: '',
-      price: ''
-  }]);
+  let initState = [{
+    color: '',
+    size: '',
+    price: ''
+  }]
+  if(props.variants && props.variants.lenngth > 0) {
+    initState= props.variants;
+  }
+  const [rows, setRows] = useState(initState);
   const [renderRows,setRenderRows] = useState(getRenderRows());
   function getRenderRows() {
      return rows.map((o, i) =>{
@@ -14,7 +18,7 @@ export default function SetVariants(props) {
                 <input
                     type="text"
                     name="color"
-                    // value={o.color}
+                    value={o.color}
                     onChange={event=>handleInputChange(event,i)}
                 />
                 </td>
@@ -22,7 +26,7 @@ export default function SetVariants(props) {
                 <input
                     type="text"
                     name="size"
-                  //  value={o.size}
+                    value={o.size}
                     onChange= {event=>handleInputChange(event,i)}
                 />
                 </td>
@@ -30,7 +34,7 @@ export default function SetVariants(props) {
                 <input
                     type="text"
                     name="price"
-                   // value={o.price}
+                    value={o.price}
                     onChange= {event=>handleInputChange(event,i)}
                 />
                 </td>

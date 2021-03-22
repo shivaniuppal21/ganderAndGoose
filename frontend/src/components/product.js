@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card,Button } from 'react-bootstrap';
 import {useHistory} from 'react-router-dom';
+import EditIcon from '@material-ui/icons/Edit';
 
 function Product(props) {
   let history = useHistory();
@@ -23,13 +24,27 @@ function Product(props) {
             Category: {product.category || 'Non-categorized'}
             </Card.Text>
             <Button
-             onClick={() =>
+             onClick={(event) => {
+              event.stopPropagation();
               addToCart({
                 id: product.title,
                 product,
                 amount: 1
-              })}
+              })
+             }
+            }
             variant="primary">Add to Cart</Button>
+            <button 
+             style={{border: 'none',
+              backgroundColor: 'white',
+              paddingLeft: '108px'
+            }}
+             onClick={(event) => {
+               event.stopPropagation();
+              history.push({pathname:'/add-product',product:product});
+             }
+             }
+            ><EditIcon/></button>
         </Card.Body>
         </Card>
     </div>

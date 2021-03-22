@@ -5,9 +5,11 @@ import Switch from "react-switch";
 import SetVariants from './set-variants';
 import SetCustomizations from './set-customizations';
 import ReactSelect from 'react-select';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-const initState = {
-  name: "",
+
+let initState = {
+  title: "",
   price: "",
   stock: "",
   shortdescription: "",
@@ -19,49 +21,105 @@ const initState = {
 };
 
 export default function AddProduct(props) {
-  const [state,setState] = useState(initState);
-  const [isSetOptions, setOptions] = useState(false);
-  const [isSetCustomizations, setCustomizations] = useState(false);
+  if(props.location.product && props.location.product.title) {
+    initState = props.location.product;
+    console.log(props.location.product);
+  }
+  const [state,setState] = useState(props.location.product || initState);
+  const [isSetOptions, setOptions] = useState((initState.variants && initState.variants.length > 0) || false);
+  const [isSetCustomizations, setCustomizations] = useState((initState.customizations && initState.customizations.length > 0) || false);
   const categoryList = [
-    { value: "Growth Cart", label: "Growth Cart" },
+    { value: "Growth Chart", label: "Growth Chart" },
     { value: "Coat Hook", label: "Coat Hook" },
     { value: "Name Plate", label: "Name Plate" }
   ];
+  function deleteProduct(e) {
+    e.preventDefault();
+    axios.delete(
+      'http://localhost:3090/api/products/'+props.location.product.id,
+      {
+        headers:
+        {
+          "Content-Type" : "application/json",
+          'Authorization': `Basic ${localStorage.getItem('accessToken')}` 
+        }
+      }
+    ).then(resp => {
+      console.log(resp);
+      props.history.push('/products');
+    }).catch(err => {
+      // Handle Error Here
+      console.error(err);
+    });
+
+  }
   function save(e) {
     e.preventDefault();
-    const { name, price, stock, shortdescription, description,images,variants,customizations ,category} = state;
-    if (name && price) {
-      axios.post(
-        'http://localhost:3090/api/products/create',
-        {
-          title: name, 
-          price:price, 
-          stock:stock,
-          description: shortdescription,
-          productDetails:description,
-          images:images,
-          variants:variants,
-          customizations:customizations,
-          category:category
-        },
-        {
-          headers:
+    const { title, price, stock, shortdescription, description,images,variants,customizations ,category} = state;
+    if (title && price) {
+      if(props.location.product) {
+        axios.put(
+          'http://localhost:3090/api/products/update/'+props.location.product.id,
           {
-            "Content-Type" : "application/json",
-            'Authorization': `Basic ${localStorage.getItem('accessToken')}` 
+            title: title, 
+            price:price, 
+            stock:stock,
+            description: shortdescription,
+            productDetails:description,
+            images:images,
+            variants:variants,
+            customizations:customizations,
+            category:category
+          },
+          {
+            headers:
+            {
+              "Content-Type" : "application/json",
+              'Authorization': `Basic ${localStorage.getItem('accessToken')}` 
+            }
           }
-        }
-      ).then(resp => {
-        console.log(resp);
-        props.history.push('/products');
-      }).catch(err => {
-        // Handle Error Here
-        console.error(err);
-      });
+        ).then(resp => {
+          console.log(resp);
+          props.history.push('/products');
+        }).catch(err => {
+          // Handle Error Here
+          console.error(err);
+        });
+      }
+      else {
+        axios.post(
+          'http://localhost:3090/api/products/create',
+          {
+            title: title, 
+            price:price, 
+            stock:stock,
+            description: shortdescription,
+            productDetails:description,
+            images:images,
+            variants:variants,
+            customizations:customizations,
+            category:category
+          },
+          {
+            headers:
+            {
+              "Content-Type" : "application/json",
+              'Authorization': `Basic ${localStorage.getItem('accessToken')}` 
+            }
+          }
+        ).then(resp => {
+          console.log(resp);
+          props.history.push('/products');
+        }).catch(err => {
+          // Handle Error Here
+          console.error(err);
+        });
+      }
+   
 
       // this.props.addProduct(
       //   {
-      //     name,
+      //     title,
       //     price,
       //     description:shortdescription,
       //     productDetails:description,
@@ -75,7 +133,7 @@ export default function AddProduct(props) {
 
     } else {
       // setState(
-      //   { flash: { status: 'is-danger', msg: 'Please enter name and price' }}
+      //   { flash: { status: 'is-danger', msg: 'Please enter title and price' }}
       // );
     }
   };
@@ -140,8 +198,8 @@ export default function AddProduct(props) {
                 <input
                   className="input"
                   type="text"
-                  name="name"
-                  value={state.name}
+                  name="title"
+                  value={state.title}
                   onChange={handleChange}
                   required
                 />
@@ -215,6 +273,7 @@ export default function AddProduct(props) {
               </div>
               {isSetOptions && (
                 <SetVariants
+                  variants={state.variants}
                   totalVariants ={saveVariants}
                 ></SetVariants>
               )}
@@ -229,6 +288,7 @@ export default function AddProduct(props) {
               </div>
               {isSetCustomizations && (
                 <SetCustomizations
+                customizations={state.customizations}
                 totalCustomizations={saveCustomizations}
                 ></SetCustomizations>
               )}
@@ -238,9 +298,20 @@ export default function AddProduct(props) {
                   type="submit"
                   onClick={save}
                 >
-                  Submit
+                  {props.location.product ? 'Update Product' : 'Submit'}
                 </button>
-              </div>
+               {props.location.product && (
+                 <button
+                 className="button is-primary is-outlined is-pulled-left"
+                 type="button"
+                 onClick={(event) => 
+                 { if (window.confirm('Are you sure you wish to delete this product?')) 
+                    deleteProduct(event)
+                 } } >
+                    <DeleteIcon/>
+                 </button>
+                )} 
+                </div>
             </div>
           </div>
         </form>
