@@ -9,11 +9,14 @@ import ProductDetails from "./components/product-details";
 import Context from "./Context";
 import "bulma/css/bulma.css";
 import {Redirect} from 'react-router';
+import{ init } from 'emailjs-com';
+import ContactUs from "./components/contact-us";
 
 export default class App extends Component {
   
   constructor(props) {
     super(props);
+    init("user_ROJ0kHgzv6Rrq5toZv7og");
     this.state = {
       user: null,
       cart: {},
@@ -136,6 +139,7 @@ export default class App extends Component {
               <Route exact path="/" render={(props) => <ProductsList {...props}openProductDetails={this.openProductDetails} addToCart={this.addToCart} setProducts={products=>this.setState({ products: products })}/>} />
               <Route exact path="/login" render={(props) => <Login {...props} setUser={user=>this.setState({ user: user })}/>} />
               <Route exact path="/register" component={SignUp} />
+              <Route exact path="/contactUs" component={ContactUs} />
               <Route exact path="/cart" render={(props) => <Cart {...props} cart={this.state.cart} removeFromCart={this.removeFromCart} clearCart={this.clearCart}/>}/>
               <Route exact path="/add-product" component={AddProduct} />
               <Route exact path="/products" render={(props) => <ProductsList {...props} openProductDetails={this.openProductDetails} addToCart={this.addToCart} setProducts={products=>this.setState({ products: products })}/>} />

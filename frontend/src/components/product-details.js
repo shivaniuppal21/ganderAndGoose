@@ -1,19 +1,17 @@
 import React from "react";
 import './product-details.css';
 import ReactSelect from 'react-select';
+import { Link } from "react-router-dom";
+
 import {
   EmailIcon,
   FacebookIcon,
-  InstapaperIcon,
   PinterestIcon,
   TwitterIcon,
-  WhatsappIcon,
   EmailShareButton,
   FacebookShareButton,
-  InstapaperShareButton,
   PinterestShareButton,
   TwitterShareButton,
-  WhatsappShareButton,
 } from "react-share";
 export default function ProductDetails(props) {
   let product = props.location.product;
@@ -64,7 +62,7 @@ export default function ProductDetails(props) {
           <FacebookShareButton><FacebookIcon size={32} round={true}></FacebookIcon></FacebookShareButton> 
           <EmailShareButton 
               subject="Check out this amazing product only on Gander and Goose"
-              body="'Visit http://ganderAndgoose.com now to find amazing products.The one I shortlisted especially for you is under the name of ' + product.title"
+              body="'Visit http://ganderAndgoose.com now to find amazing products.The one I shortlisted especially for you."
               url="http://ganderAndGoose.com"> 
               <EmailIcon size={32} round={true}></EmailIcon> 
           </EmailShareButton>  
@@ -72,6 +70,11 @@ export default function ProductDetails(props) {
           </PinterestShareButton>  
           <TwitterShareButton><TwitterIcon size={32} round={true}></TwitterIcon></TwitterShareButton>
          
+        </div>
+        <div className="row">
+          <Link to="/contactUs">
+            Ask us about this product
+          </Link>
         </div>
         {product.variants && product.variants.length > 0 && (
           <div className="row">
