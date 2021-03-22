@@ -72,7 +72,10 @@ export default function ProductDetails(props) {
          
         </div>
         <div className="row">
-          <Link to="/contactUs">
+          <Link to={{ 
+              pathname: "/contactUs",
+              myCustomProps: product
+          }}>
             Ask us about this product
           </Link>
         </div>

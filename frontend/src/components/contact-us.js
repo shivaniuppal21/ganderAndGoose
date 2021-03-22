@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
 
 export default function ContactUs(props) {
+  debugger;
+    let productInfo = props.location.myCustomProps;
     const [msg,setMsg] = useState({
         name: "",
         email: "",
-        feedback: "",
+        feedback: 'Ask about ' + productInfo.title + ' (' + productInfo.id +')',
     });
     function handleInputChange(event) {
       event.preventDefault();
@@ -16,12 +18,12 @@ export default function ContactUs(props) {
     }
     function sendMessage() {
       const templateId = 'template_ycmwbt2';
-
-      sendFeedback(templateId, {message_html: msg.feedback, from_name: msg.name, reply_to: msg.email})
+      const finalData =  'Regarding ' + productInfo.title + ' (' + productInfo.id +')\n' + msg.feedback;
+      sendFeedback(templateId, {message_html: finalData, from_name: msg.name, reply_to: msg.email})
     }   
     function sendFeedback (templateId, variables) {
       emailjs.send(
-        "service_teq7p9i","template_85h08xr",
+        "service_teq7p9i","template_uckwhxc",
         variables
         ).then(res => {
           console.log('Email successfully sent!')
