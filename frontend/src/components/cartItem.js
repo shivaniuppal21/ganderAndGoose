@@ -19,7 +19,7 @@ export default function CartItem(props) {
                 {product.title}{" "}
                 <span className="tag is-primary">${product.price}</span>
               </b>
-              <div>{product.shortDescription}</div>
+              <div>{product.shortdescription}</div>
               <small>{`${amount} in cart`}</small>
             </div>
             <div
