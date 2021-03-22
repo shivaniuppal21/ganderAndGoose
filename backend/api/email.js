@@ -1,6 +1,8 @@
 const Mail = require('../models/mail.model');
 const app = require('express').Router();
 const nodemailer = require('nodemailer');
+module.exports = app;
+
 
 let transporter = nodemailer.createTransport({
 	service: 'Gmail', // Your SMTP
