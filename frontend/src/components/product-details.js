@@ -14,7 +14,31 @@ import {
   TwitterShareButton,
 } from "react-share";
 export default function ProductDetails(props) {
-  let product = props.location.product;
+  let params = {};
+  let product = {};
+  useEffect(()=>{
+    if(props.location && props.location.search) {
+      params = props.location.search.substr(1)
+        .split('&')
+        .reduce((carry, pair) => {
+          const [ key, val ] = pair.split('=');
+          carry[unescape(key)] = unescape(val);
+          return carry;
+      }, {});
+      axios.get("http://localhost:3090/api/products?id="+params.id,null,{headers:{"Content-Type" : "application/json"}})
+      .then(resp => {
+          product = resp.data;
+      }).catch(err => {
+          // Handle Error Here
+          console.error(err);
+      });
+    }
+    else {
+       product = props.location.product;
+    }
+},[])
+  
+  
   // let img = product.images;
   // product = {
   //   "title": "Wooden Growth Chart",
@@ -65,7 +89,7 @@ export default function ProductDetails(props) {
           </FacebookShareButton> 
           <EmailShareButton 
               subject="Check out this amazing product only on Gander and Goose"
-              body="'Visit http://ganderAndgoose.com now to find amazing products.The one I shortlisted especially for you."
+              body={`Visit http://ganderAndgoose.com?id=${product.id} now to find amazing products.The one I shortlisted especially for you.`}
               url="http://ganderAndGoose.com"> 
               <EmailIcon size={32} round={true}></EmailIcon> 
           </EmailShareButton>  
