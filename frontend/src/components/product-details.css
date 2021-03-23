@@ -18,6 +18,7 @@
     max-height: 400px;
     display: block;
     object-fit: cover;
+    min-height: 475px;
 }
 .details .box {
     max-width: 500px;
@@ -41,11 +42,10 @@
     margin: 15px 0;
 }
 .image-gallery-content .image-gallery-slide .image-gallery-image {
-    max-height: calc(100vh - 80px);
-    min-width: 500px;
-    max-height: 300px;
-    min-height: 300px;
-    max-width: 500px;
+    min-width: 300px;
+    max-height: 350px;
+    min-height: 350px;
+    max-width: 300px;
 }
 .image-gallery-slide .image-gallery-image {
     width: 100%;
@@ -55,8 +55,16 @@
     vertical-align: middle;
     width: 100%;
     line-height: 0;
-    max-width: 75px;
-    min-width: 75px;
-    min-height: 50px;
-    max-height: 50px;
+    max-width: 60px;
+    min-width: 60px;
+    min-height: 80px;
+    max-height: 80px;
 }
+.image-gallery-thumbnails {
+    padding: 35px 0;
+}
+@media (max-width: 768px){
+.image-gallery-thumbnails {
+    padding: 40px 0;
+}
+};
