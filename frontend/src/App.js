@@ -13,6 +13,7 @@ import{ init } from 'emailjs-com';
 import ContactUs from "./components/contact-us";
 // import Message from './components/flash-msg';
 import Alert from 'react-bootstrap/Alert';
+import './App.css';
 
 export default class App extends Component {
   

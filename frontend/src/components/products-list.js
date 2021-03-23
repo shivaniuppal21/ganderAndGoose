@@ -122,8 +122,6 @@ export default function ProductsList(props) {
     },[])
     return (
         <>
-            <h2>Products</h2>
-            <br/>
             <CardDeck>
                 {
                     products.map((product, index) => {
