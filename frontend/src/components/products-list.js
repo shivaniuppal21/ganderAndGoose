@@ -3,6 +3,7 @@ import './products-list.css';
 import Product from './product';
 import { CardDeck } from 'react-bootstrap';
 import axios from 'axios';
+import Carousel from 'react-material-ui-carousel';
 
 let products = [{
     "title": "Wooden Growth Chart",
@@ -109,8 +110,8 @@ let products = [{
   }
 ];
 export default function ProductsList(props) {
-        useEffect(()=>{
-        //props.setProducts(products);
+    useEffect(()=>{
+       //props.setProducts(products);
         axios.get("http://localhost:3090/api/products",null,{headers:{"Content-Type" : "application/json"}})
         .then(resp => {
             products = resp.data;
@@ -121,20 +122,27 @@ export default function ProductsList(props) {
         });
     },[])
     return (
-        <>
-            <CardDeck>
-                {
-                    products.map((product, index) => {
-                        return(<Product
-                            key={index}
-                            product={product}
-                            addToCart={props.addToCart}
-                            openProductDetails={props.openProductDetails}
-                            isAdmin={props.isAdmin}
-                         />)
-                    })
-                }
-            </CardDeck>
-        </>
+      <>
+        <Carousel>
+          <img style={{width:'100%', height:'400px'}} src="/images/a.jpg"/>
+          <img style={{width:'100%', height:'400px'}} src="/images/b.jpg"/>
+          <img style={{width:'100%', height:'400px'}} src="/images/c.jpg"/>
+          <img style={{width:'100%', height:'400px'}} src="/images/d.jpg"/>
+          <img style={{width:'100%', height:'400px'}} src="/images/e.jpg"/>
+        </Carousel>
+        <CardDeck>
+            {
+                products.map((product, index) => {
+                    return(<Product
+                        key={index}
+                        product={product}
+                        addToCart={props.addToCart}
+                        openProductDetails={props.openProductDetails}
+                        isAdmin={props.isAdmin}
+                      />)
+                })
+            }
+        </CardDeck>
+      </>
     );
 }
