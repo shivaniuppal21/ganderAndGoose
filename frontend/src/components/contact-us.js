@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
 
 export default function ContactUs(props) {
-  debugger;
     let productInfo = props.location.myCustomProps;
     const [msg,setMsg] = useState({
         name: "",

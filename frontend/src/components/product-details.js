@@ -59,17 +59,26 @@ export default function ProductDetails(props) {
           <span>${product.price}</span>
         </div>
         <div className="row" style={{ justifyContent:'left'}}>
-          <FacebookShareButton><FacebookIcon size={32} round={true}></FacebookIcon></FacebookShareButton> 
+          <FacebookShareButton
+           url={String(window.location)}>
+             <FacebookIcon size={32} round={true}></FacebookIcon>
+          </FacebookShareButton> 
           <EmailShareButton 
               subject="Check out this amazing product only on Gander and Goose"
               body="'Visit http://ganderAndgoose.com now to find amazing products.The one I shortlisted especially for you."
               url="http://ganderAndGoose.com"> 
               <EmailIcon size={32} round={true}></EmailIcon> 
           </EmailShareButton>  
-          <PinterestShareButton><PinterestIcon size={32} round={true}></PinterestIcon> 
+          <PinterestShareButton 
+            media={`http://localhost:3090${product.images[0]}`}
+            url={String(window.location)}>
+            <PinterestIcon size={32} round={true}></PinterestIcon> 
           </PinterestShareButton>  
-          <TwitterShareButton><TwitterIcon size={32} round={true}></TwitterIcon></TwitterShareButton>
-         
+          <TwitterShareButton
+           url={String(window.location)}
+           title={product.title}>
+             <TwitterIcon size={32} round={true}></TwitterIcon>
+          </TwitterShareButton>
         </div>
         <div className="row">
           <Link to={{ 
