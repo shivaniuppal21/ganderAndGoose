@@ -11,6 +11,8 @@ import "bulma/css/bulma.css";
 import {Redirect} from 'react-router';
 import{ init } from 'emailjs-com';
 import ContactUs from "./components/contact-us";
+// import Message from './components/flash-msg';
+import Alert from 'react-bootstrap/Alert';
 
 export default class App extends Component {
   
@@ -20,7 +22,9 @@ export default class App extends Component {
     this.state = {
       user: null,
       cart: {},
-      products: []
+      products: [],
+      showMessage: false,
+      message: ''
     };
     this.routerRef = React.createRef();
   }
@@ -28,6 +32,8 @@ export default class App extends Component {
     localStorage.clear();
   }
   addToCart = cartItem => {
+    this.state.showMessage = true;
+    this.state.message = 'Added to cart successfully';
     let cart = this.state.cart;
     if (cart[cartItem.id]) {
       cart[cartItem.id].amount += cartItem.amount;
@@ -41,10 +47,11 @@ export default class App extends Component {
     this.setState({ cart });
   };
   openProductDetails=product => {
-    debugger;
     return <Redirect to="/product-details" />
   }
   removeFromCart = cartItemId => {
+    this.state.showMessage = true;
+    this.state.message = 'Removed from cart successfully';
     let cart = this.state.cart;
     delete cart[cartItemId];
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -72,11 +79,16 @@ export default class App extends Component {
       >
         <Router ref={this.routerRef}>
         <div className="App">
+          
           <nav
             className="navbar container"
             role="navigation"
             aria-label="main navigation"
           >
+             {this.state.showMessage && (
+             <Alert dismissible onClose={() => this.setState({...this.state,showMessage:false,message:''})} variant="success">
+               {this.state.message}
+           </Alert>)}
             <div className="navbar-brand">
               <b className="navbar-item is-size-4 ">GanderAndGoose</b>
               <label
