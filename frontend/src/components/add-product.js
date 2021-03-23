@@ -265,7 +265,7 @@ export default function AddProduct(props) {
               </div>
               <div className="field">
                 <label className="label">Upload files: </label>
-                <input type="file" onChange={onFileChange} />
+                <input type="file" multiple onChange={onFileChange} />
               </div>
               <div className="field">
                 <label className="label">Colors and Price Options: </label>

@@ -1,7 +1,10 @@
-import React from "react";
+import React,{useEffect} from "react";
 import './product-details.css';
 import ReactSelect from 'react-select';
 import { Link } from "react-router-dom";
+import axios from 'axios';
+import Carousel from 'react-material-ui-carousel';
+import ImageGallery from 'react-image-gallery';
 
 import {
   EmailIcon,
@@ -16,6 +19,28 @@ import {
 export default function ProductDetails(props) {
   let params = {};
   let product = {};
+  let images = [];
+  // let items = [
+  //   'https://picsum.photos/id/1/200/300',
+  //   'https://picsum.photos/id/2/200/300',
+  //   'https://picsum.photos/id/3/200/300',
+  //   'https://picsum.photos/id/4/200/300',
+  //   'https://picsum.photos/id/5/200/300',
+  // ]
+  // const images = [
+  //   {
+  //     original: 'https://picsum.photos/id/1018/2000/2500/',
+  //     thumbnail: 'https://picsum.photos/id/1018/250/150/',
+  //   },
+  //   {
+  //     original: 'https://picsum.photos/id/1015/1000/600/',
+  //     thumbnail: 'https://picsum.photos/id/1015/150/100/',
+  //   },
+  //   {
+  //     original: 'https://picsum.photos/id/1019/300/400/',
+  //     thumbnail: 'https://picsum.photos/id/1019/220/350/',
+  //   },
+  // ];
   useEffect(()=>{
     if(props.location && props.location.search) {
       params = props.location.search.substr(1)
@@ -28,6 +53,12 @@ export default function ProductDetails(props) {
       axios.get("http://localhost:3090/api/products?id="+params.id,null,{headers:{"Content-Type" : "application/json"}})
       .then(resp => {
           product = resp.data;
+          for(let i = 0 ; i < product.images.length;i++) {
+            images.push({
+              original:'http://localhost:3090'+product.images[i],
+              thumbnail:'http://localhost:3090'+product.images[i]
+            })
+          }
       }).catch(err => {
           // Handle Error Here
           console.error(err);
@@ -35,11 +66,17 @@ export default function ProductDetails(props) {
     }
     else {
        product = props.location.product;
+       for(let i = 0 ; i < product.images.length;i++) {
+        images.push({
+          original:'http://localhost:3090'+product.images[i],
+          thumbnail:'http://localhost:3090'+product.images[i]
+        })
+      }
     }
-},[])
+},[]);
   
   
-  // let img = product.images;
+  //  let img = items;
   // product = {
   //   "title": "Wooden Growth Chart",
   //   "price": 100,
@@ -69,12 +106,10 @@ export default function ProductDetails(props) {
   //   ]
   // }
   return (
+    <div>
     <div className="details">
       <div className="big-img">
-        <img
-          src={'http://localhost:3090' + product.images[0]}
-          alt={product.title}
-        />
+      <ImageGallery items={images} />;
       </div>
       
       <div className="box">
@@ -149,6 +184,7 @@ export default function ProductDetails(props) {
           Add to Cart
         </button>
       </div>
+    </div>
     </div>
   );
 };

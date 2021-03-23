@@ -1,3 +1,5 @@
+@import "~react-image-gallery/styles/css/image-gallery.css";
+
 .details {
     display: flex;
     justify-content: space-around;
@@ -37,4 +39,8 @@
 .box p {
     /* line-height: 1.5px; */
     margin: 15px 0;
+}
+.image-gallery-slide .image-gallery-image {
+    width: 100%;
+    object-fit: fill;
 }
