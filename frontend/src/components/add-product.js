@@ -58,7 +58,7 @@ export default function AddProduct(props) {
     const { title, price, stock, shortdescription, description,images,variants,customizations ,category} = state;
     if (title && price) {
       if(props.location.product) {
-        axios.put(
+        axios.post(
           'http://localhost:3090/api/products/update/'+props.location.product.id,
           {
             title: title, 
