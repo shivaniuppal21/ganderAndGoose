@@ -90,7 +90,9 @@ export default class App extends Component {
                {this.state.message}
            </Alert>)}
             <div className="navbar-brand">
-              <b className="navbar-item is-size-4 ">GanderAndGoose</b>
+              <b className="navbar-item is-size-4 ">
+                <img  style={{minHeight: '90px'}} src="/logo.jpg"></img>
+              </b>
               <label
                 role="button"
                 className="navbar-burger burger"
