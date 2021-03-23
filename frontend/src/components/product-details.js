@@ -41,8 +41,8 @@ export default function ProductDetails(props) {
   //     thumbnail: 'https://picsum.photos/id/1019/220/350/',
   //   },
   // ];
-  useEffect(()=>{
-    if(props.location && props.location.search) {
+  // useEffect(()=>{
+    if(props.location && props.location.search && product.location.search.length > 0) {
       params = props.location.search.substr(1)
         .split('&')
         .reduce((carry, pair) => {
@@ -73,7 +73,7 @@ export default function ProductDetails(props) {
         })
       }
     }
-},[]);
+//},[]);
   
   
   //  let img = items;
