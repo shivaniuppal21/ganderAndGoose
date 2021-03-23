@@ -40,7 +40,23 @@
     /* line-height: 1.5px; */
     margin: 15px 0;
 }
+.image-gallery-content .image-gallery-slide .image-gallery-image {
+    max-height: calc(100vh - 80px);
+    min-width: 500px;
+    max-height: 300px;
+    min-height: 300px;
+    max-width: 500px;
+}
 .image-gallery-slide .image-gallery-image {
     width: 100%;
     object-fit: fill;
+}
+.image-gallery-thumbnail .image-gallery-thumbnail-image {
+    vertical-align: middle;
+    width: 100%;
+    line-height: 0;
+    max-width: 75px;
+    min-width: 75px;
+    min-height: 50px;
+    max-height: 50px;
 }
