@@ -40,10 +40,12 @@ export default class App extends Component {
       cart[cartItem.id].amount += cartItem.amount;
     } else {
       cart[cartItem.id] = cartItem;
+      cart[cartItem.id].amount = 1;
     }
-    if (cart[cartItem.id].amount > cart[cartItem.id].product.stock) {
+    if (cart[cartItem.id].product.stock && cart[cartItem.id].amount > cart[cartItem.id].product.stock) {
       cart[cartItem.id].amount = cart[cartItem.id].product.stock;
     }
+    
     localStorage.setItem("cart", JSON.stringify(cart));
     this.setState({ cart });
   };
