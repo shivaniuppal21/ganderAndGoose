@@ -151,7 +151,7 @@ export default function ProductDetails(props) {
           <div className="row">
            <h3>Select Variant</h3>
            <select>
-           {product.variants.map((x,y) => <option key={y}>{x.color+'('+ x.size +')'}</option>)}
+           {product.variants.map((x,y) => <option key={y}>{x.color+'('+ x.size +' inches)'}</option>)}
            </select>
            </div>
         )}
@@ -159,7 +159,7 @@ export default function ProductDetails(props) {
           <div className="row">
            <h3>Select Customization</h3>
            <select>
-           {product.customizations.map((x,y) => <option key={y}>{x.letters}</option>)}
+           {product.customizations.map((x,y) => <option key={y}>{x.letters + ' letters'}</option>)}
            </select>
            </div>
         )}
